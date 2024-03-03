@@ -2680,6 +2680,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-ac-carousel@^0.0.51:
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/use-ac-carousel/-/use-ac-carousel-0.0.51.tgz#19f0639f800f721640771a9531ea8800afbe5186"
+  integrity sha512-JuNHINvPzdM1VYTlLpTSp9a87mfKoHeZ02n8dnkjTGY2K6eEeYtuFV9JiKN3LE/74UDshw3Kw79l187wvcoIkA==
+
 util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
