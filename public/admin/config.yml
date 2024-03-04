@@ -1,3 +1,4 @@
+local_backend: true
 backend:
   name: git-gateway
   branch: main # Branch to update (optional; defaults to master)
@@ -6,17 +7,73 @@ public_folder: '/images/uploads' # The src attribute for uploaded media will beg
 locale: it
 display_url: https://meltemi-travel.netlify.app/
 collections:
-  - name: 'blog' # Used in routes, e.g., /admin/collections/blog
-    label: 'Blog' # Used in the UI, e.g., "New Blog Post"
-    folder: 'content/blog' # The path to the folder where the documents are stored
+  - label: 'Isole'
+    name: 'isola' # Used in routes, e.g., /admin/collections/blog
+    folder: 'content/isole' # The path to the folder where the documents are stored
     extension: json
+    label_singular: 'Isola' # Used in the UI, e.g., "New Blog Post"
     create: true # Allow users to create new documents in this collection
+    identifier_field: 'nome' # The field in each document that acts as the unique identifier
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}' # Filename template, e.g., YYYY-MM-DD-title.md
-    fields: # The fields each document in this collection will have
-      - { label: 'Layout', name: 'layout', widget: 'hidden', default: 'blog' }
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
-      - { label: 'Featured Image', name: 'thumbnail', widget: 'image' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
-      - { label: 'Tags', name: 'tags', widget: 'list', default: [] }
-      - { label: 'Draft', name: 'draft', widget: 'boolean', default: false }
+    fields:
+      [
+        { label: 'Nome', name: 'nome', widget: 'string' },
+        {
+          label: 'Descrizione breve',
+          name: 'short_description',
+          widget: 'markdown',
+          required: false,
+        },
+        {
+          label: 'Descrizione lunga',
+          name: 'long_description',
+          widget: 'markdown',
+          required: false,
+        },
+        {
+          label: 'Foto',
+          name: 'foto',
+          widget: 'list',
+          add_to_top: true,
+          fields:
+            [
+              {
+                label: 'Foto',
+                name: 'url',
+                widget: 'image',
+                media_library: { config: { multiple: true } },
+              },
+            ],
+        },
+      ]
+  - label: 'settings'
+    name: 'settings'
+    files:
+      - label: 'Settaggi di base'
+        name: 'settings'
+        file: 'content/settings.json'
+        fields:
+          - { label: 'Titolo', name: 'title', widget: 'string' }
+          - { label: 'Sottotitolo', name: 'subtitle', widget: 'string' }
+      - label: 'Pagina iniziale'
+        file: 'content/homepage.json'
+        name: 'homepage'
+        fields:
+          [
+            { label: 'Intro', name: 'intro', widget: 'markdown' },
+            {
+              label: 'Foto',
+              name: 'picture',
+              widget: 'list',
+              add_to_top: true,
+              fields:
+                [
+                  {
+                    label: 'Foto',
+                    name: 'url',
+                    widget: 'image',
+                    media_library: { config: { multiple: true } },
+                  },
+                ],
+            },
+          ]

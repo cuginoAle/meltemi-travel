@@ -1,20 +1,22 @@
-import { useEffect } from 'react';
+import { Hero } from './components/hero';
+import { MediaCarousel } from './components/mediaCarousel';
+
+const getItems = () =>
+  new Array(40)
+    .fill(0)
+    .map(
+      (_, index) =>
+        `https://source.unsplash.com/random/900x900/?greek%20islands?sig=${index}`,
+    );
 
 export default function Home() {
-  // useEffect(() => {
-  //   if ((window as any).netlifyIdentity) {
-  //     (' ');
-  //   }
-  //   {
-  //     (window as any).netlifyIdentity.on('init', (user: any) => {
-  //       if (!user) {
-  //         (window as any).netlifyIdentity.on('login', () => {
-  //           document.location.href = '/admin/';
-  //         });
-  //       }
-  //     });
-  //   }
-  // }, []);
+  return (
+    <main>
+      <Hero />
 
-  return <main>Meltemi travel</main>;
+      <MediaCarousel slideWidth={360} items={getItems()} />
+
+      <div className="max-w-screen-xl mx-auto"></div>
+    </main>
+  );
 }
