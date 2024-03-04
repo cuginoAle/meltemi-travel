@@ -17,8 +17,10 @@ interface Props {
 }
 
 const safariAgent =
-  (navigator && navigator.userAgent.indexOf('iPhone') > -1) ||
-  navigator.userAgent.indexOf('iPad') > -1;
+  typeof navigator === 'undefined'
+    ? false
+    : navigator.userAgent.indexOf('iPhone') > -1 ||
+      navigator.userAgent.indexOf('iPad') > -1;
 
 const MediaCarousel = ({
   items,
