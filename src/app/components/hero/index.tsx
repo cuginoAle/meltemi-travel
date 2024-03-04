@@ -5,8 +5,8 @@ const Hero = () => {
   return (
     <div className="relative flex justify-center items-center">
       <Image
-        src="https://source.unsplash.com/random/1580x600/?greek%20islands"
-        width={1580}
+        src="https://source.unsplash.com/random/1580x600/?greece&20islands?sig=19"
+        width={1280}
         height={600}
         alt=""
       />
