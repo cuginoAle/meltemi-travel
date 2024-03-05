@@ -5,7 +5,7 @@ const Intro = () => {
     <section aria-label="La nostra filosofia" className={styles.wrapper}>
       <p>
         <span className="font-bold text-primary-500 text-2xl mr-1">
-          Meltermi travel
+          Meltemi travel
         </span>
         si occupa della tua prossima vacanza in Grecia e promuove esperienze di
         viaggio, uniche e su misura, verso destinazioni che ancora conservano il
