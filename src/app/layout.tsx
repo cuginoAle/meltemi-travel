@@ -25,7 +25,7 @@ export default function RootLayout({
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
         strategy="lazyOnload"
       />
-      <body className={`${font.className}  mx-auto shadow-lg`}>{children}</body>
+      <body className={`${font.className}`}>{children}</body>
     </html>
   );
 }

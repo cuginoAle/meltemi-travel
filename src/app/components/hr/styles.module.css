@@ -1,0 +1,7 @@
+.hr {
+  background-image: url('/assets/greek-pattern.png');
+  height: 36px;
+  width: 100%;
+  background-repeat: repeat-x;
+  background-size: contain;
+}

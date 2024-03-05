@@ -4,8 +4,15 @@ import logo from '@/assets/logo.webp';
 import hero from '@/assets/hero.webp';
 const Hero = () => {
   return (
-    <div className="relative flex justify-center items-center">
-      <Image src={hero} width={1280} height={531} alt="" />
+    <div className="relative flex justify-center items-center max-w-screen-xl mx-auto ">
+      <div className={styles.imageWrapper}>
+        <Image
+          src={hero}
+          fill
+          alt=""
+          sizes="(max-width: 400px) 100vw, (max-width: 640px) 200vw, 1280px"
+        />
+      </div>
 
       <div className={styles.copyWrapper}>
         <div className="flex gap-3 lg:gap-4 items-center">
