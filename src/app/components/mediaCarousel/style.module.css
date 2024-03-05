@@ -5,8 +5,8 @@
   transition: background-color 0.3s, color 0.3s;
 }
 .navButton:not([disabled]):hover {
-  background-color: white;
-  color: black;
+  @apply bg-primary-300;
+  /* color: black; */
 }
 
 .prevButton {

@@ -15,7 +15,7 @@ const Hero = () => {
       </div>
 
       <div className={styles.copyWrapper}>
-        <div className="flex gap-3 lg:gap-4 items-center">
+        <div className="flex gap-3 lg:gap-4 items-center justify-center">
           <Image
             src={logo}
             className={styles.logo}

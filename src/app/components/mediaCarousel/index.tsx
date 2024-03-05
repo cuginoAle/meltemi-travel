@@ -84,7 +84,7 @@ Props) => {
 
     const handleResize = () => {
       setRightTwilightAreaWidth(getTwilightAreaWidth(60));
-      setLeftTwilightAreaWidth(getTwilightAreaWidth(24));
+      setLeftTwilightAreaWidth(getTwilightAreaWidth(10));
     };
 
     window.addEventListener('resize', handleResize);
