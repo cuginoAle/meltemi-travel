@@ -47,7 +47,7 @@
 .carouselWrapper {
   padding: 16px 0;
   height: 100%;
-  background-color: #fefefe;
+  background-color: #f3f3f3;
   position: relative;
 }
 
@@ -59,7 +59,7 @@
 }
 .li:hover {
   .slideAnchor {
-    @apply bg-primary-800;
+    @apply bg-primary-900;
   }
 }
 .li:focus-within {
@@ -68,7 +68,7 @@
     color: #ffd24c;
   }
   .slideAnchor {
-    background-color: #3a3a3a;
+    @apply bg-primary-900;
   }
 }
 
@@ -95,7 +95,7 @@
   border-radius: 6px;
   position: relative;
   outline: none;
-  @apply bg-primary-900;
+  background-color: white;
 }
 .slideTitle {
   /* font-weight: lighter; */
