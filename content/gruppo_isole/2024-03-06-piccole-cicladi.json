@@ -1,0 +1,16 @@
+{
+  "nome": "Piccole Cicladi",
+  "isole": [
+    "Amargos",
+    "Donoussa",
+    "Iraklia",
+    "Koufonissi",
+    "Schinoussa"
+  ],
+  "short_description": "s",
+  "foto": [
+    {
+      "url": "https://source.unsplash.com/random/800x600/?greek%20islands"
+    }
+  ]
+}

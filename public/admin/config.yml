@@ -7,6 +7,50 @@ public_folder: '/images/uploads' # The src attribute for uploaded media will beg
 locale: it
 display_url: https://meltemi-travel.netlify.app/
 collections:
+  - label: 'Gruppo di isole'
+    name: 'gruppo_isole'
+    folder: 'content/gruppo_isole'
+    extension: json
+    create: true
+    identifier_field: 'nome'
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    fields:
+      [
+        { label: 'Nome', name: 'nome', widget: 'string' },
+        {
+          label: 'Descrizione',
+          name: 'description',
+          widget: 'markdown',
+          required: false,
+        },
+        {
+          label: 'Isole',
+          name: 'isole',
+          widget: 'relation',
+          collection: 'isola',
+          value_field: 'nome',
+          search_fields: ['nome'],
+          display_fields: ['nome'],
+          multiple: true,
+          required: false,
+        },
+        {
+          label: 'Foto',
+          name: 'foto',
+          widget: 'list',
+          add_to_top: true,
+          fields:
+            [
+              {
+                label: 'Foto',
+                name: 'url',
+                widget: 'image',
+                media_library: { config: { multiple: true } },
+              },
+            ],
+        },
+      ]
+
   - label: 'Isole'
     name: 'isola' # Used in routes, e.g., /admin/collections/blog
     folder: 'content/isole' # The path to the folder where the documents are stored

@@ -3,6 +3,8 @@ import { Hr } from './components/hr';
 import { Intro } from './components/intro';
 import { MediaCarousel } from './components/mediaCarousel';
 import { Metadata } from 'next';
+import settings from 'content/settings.json';
+import { IslesGroup } from './components/islesGroup';
 
 const getItems = () =>
   new Array(40)
@@ -13,8 +15,8 @@ const getItems = () =>
     );
 
 export const metadata: Metadata = {
-  title: 'Meltemi travel',
-  description: 'Meltemi travel - la tua prossima vacanza in Grecia.',
+  title: settings.title,
+  description: settings.subtitle,
 };
 
 const slideWidth = 1280 / 4 - 16;
@@ -34,6 +36,7 @@ export default function Home() {
           <Intro />
         </div>
         <Hr />
+        <IslesGroup />
       </div>
     </main>
   );
