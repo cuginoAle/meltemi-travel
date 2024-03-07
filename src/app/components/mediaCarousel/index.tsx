@@ -8,7 +8,7 @@ import { Progress } from '../progress';
 import { useAcCarousel } from 'use-ac-carousel';
 
 interface Props {
-  items: string[];
+  items: React.ReactNode[];
   title?: string;
   ariaLabel?: string;
   autoPlay?: number;
@@ -114,24 +114,32 @@ Props) => {
             padding: `8px ${rightTwilightAreaWidth} 8px ${leftTwilightAreaWidth}`,
           }}
         >
-          {items.map((url, index) => (
+          {items.map((item, index) => (
             <li key={index} className={style.li}>
               <div
                 className={`${style.liInnerWrapper} ${
                   visibleIndexes.includes(index) ? style.visible : ''
                 }`}
               >
-                <a href="" key={index} className={style.slideAnchor}>
-                  <img className={style.img} src={url} alt="" loading="lazy" />
-                  <div className={style.copyWrapper}>
-                    <h2 className={style.slideTitle}>Slide title here</h2>
-                    <p className="font-light text-gray-400">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quia voluptatibus, voluptate molestias.
-                    </p>
-                  </div>
-                  <span className={style.slideCount}>{index + 1}</span>
-                </a>
+                {typeof item === 'string' ? (
+                  <a href="" key={index} className={style.slideAnchor}>
+                    <img
+                      className={style.img}
+                      src={item}
+                      alt=""
+                      loading="lazy"
+                    />
+                    <div className={style.copyWrapper}>
+                      <h2 className={style.slideTitle}>Slide title here</h2>
+                      <p className="font-light text-gray-400">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quia voluptatibus, voluptate molestias.
+                      </p>
+                    </div>
+                  </a>
+                ) : (
+                  item
+                )}
               </div>
             </li>
           ))}

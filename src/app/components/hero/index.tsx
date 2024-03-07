@@ -24,7 +24,7 @@ const Hero = () => {
             alt="Meltemi travel"
             sizes="(max-width: 400px) 40px, (max-width: 768px) 80px, 80px"
           />
-          <h1 className={styles.title}>{data.title}</h1>
+          <h1 className={`${styles.title} text-shadow-lg`}>{data.title}</h1>
         </div>
         <p className={styles.subTitle}>{data.subtitle}</p>
       </div>
