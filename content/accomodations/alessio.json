@@ -1,11 +1,10 @@
 {
-  "nome": "Andros",
-  "short_description": "asdasdada",
-  "long_description": " asd asdas da",
+  "nome": "Alessio",
+  "description": "Some description here",
+  "isole": [
+    "Amargos"
+  ],
   "foto": [
-    {
-      "url": "https://source.unsplash.com/random/800x600/?greek%20islands"
-    },
     {
       "url": "https://source.unsplash.com/random/800x600/?greek%20islands"
     },

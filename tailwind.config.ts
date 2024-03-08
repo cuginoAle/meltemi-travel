@@ -34,6 +34,7 @@ const config: Config = {
       },
       boxShadow: {
         ale: '0 3px 7px rgba(0, 0, 0, 0.6)',
+        logo_small: '0 1px 2px rgba(0, 0, 0, 0.6)',
       },
     },
   },

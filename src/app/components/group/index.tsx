@@ -1,45 +1,31 @@
 import { getFolderEntries, readJsonFile } from '@/app/utils/fs';
 import { MediaCarousel } from '../mediaCarousel';
 import carouselStyle from '../mediaCarousel/style.module.css';
+import { isleGroupFolderName, islesFolderName } from '@/app/constants';
+import { Isle, IslesGroup } from '@/app/types';
 
-const groupFolderName = 'gruppo_isole';
-const itemFolderName = 'isole';
-interface Isle {
-  nome: string;
-  short_description: string;
-  long_description: string;
-  foto: {
-    url: string;
-  }[];
-}
-
-interface IslesGroup {
-  nome: string;
-  short_description: string;
-  isole: string[];
-  foto: {
-    url: string;
-  }[];
-}
 async function getGroupData() {
-  const data = await getFolderEntries(groupFolderName);
+  const data = getFolderEntries(isleGroupFolderName);
 
-  return await data.map((file) => {
-    return readJsonFile(groupFolderName, file) as IslesGroup;
+  return data.map((file) => {
+    return readJsonFile(isleGroupFolderName, file) as IslesGroup;
   });
 }
 
 async function getIslesData() {
-  const data = await getFolderEntries(itemFolderName);
+  const data = getFolderEntries(islesFolderName);
 
-  return await data.map((file) => {
-    return readJsonFile(itemFolderName, file) as Isle;
+  return data.map((file) => {
+    return readJsonFile(islesFolderName, file) as Isle;
   });
 }
 
 const Card = (isola: Isle) => {
   return (
-    <a href="" className={`${carouselStyle.slideAnchor} relative`}>
+    <a
+      href={`${islesFolderName}/${isola.nome}`}
+      className={`${carouselStyle.slideAnchor} relative`}
+    >
       <img
         className={carouselStyle.img}
         src={isola.foto[0].url + '&gid=' + isola.nome}
@@ -53,7 +39,7 @@ const Card = (isola: Isle) => {
     </a>
   );
 };
-const IslesGroup = async () => {
+const Group = async () => {
   const gruppi = await getGroupData();
   const isole = await getIslesData();
 
@@ -73,4 +59,4 @@ const IslesGroup = async () => {
   });
 };
 
-export { IslesGroup };
+export { Group };

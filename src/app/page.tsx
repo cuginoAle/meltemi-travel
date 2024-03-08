@@ -4,7 +4,7 @@ import { Intro } from './components/intro';
 import { MediaCarousel } from './components/mediaCarousel';
 import { Metadata } from 'next';
 import settings from 'content/settings.json';
-import { IslesGroup } from './components/islesGroup';
+import { Group } from './components/group';
 
 const getItems = () =>
   new Array(40)
@@ -26,18 +26,18 @@ export default function Home() {
     <main>
       <Hero />
       <MediaCarousel
-        title="Alcune proposte:"
+        title="Ultime proposte:"
         slideWidth={slideWidth}
         items={getItems()}
       />
       <div className="max-w-screen-xl mx-auto bg-white">
         <Hr />
-        <div className="p-3 md:p-6 lg:p-20 text-primary-300">
+        <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">
           <Intro />
         </div>
         <Hr />
-        <IslesGroup />
       </div>
+      <Group />
     </main>
   );
 }
