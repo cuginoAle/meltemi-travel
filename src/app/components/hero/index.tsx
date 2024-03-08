@@ -12,6 +12,7 @@ const Hero = () => {
           src={hero}
           fill
           alt=""
+          priority
           sizes="(max-width: 400px) 100vw, (max-width: 640px) 200vw, 1280px"
         />
       </div>
