@@ -1,6 +1,12 @@
 {
   "nome": "Piccole Cicladi",
-  "isole": ["Amargos", "Donoussa", "Iraklia", "Koufonissi", "Schinoussa"],
+  "isole": [
+    "Donoussa",
+    "Iraklia",
+    "Koufonissi",
+    "Schinoussa",
+    "Amorgos"
+  ],
   "short_description": "s",
   "foto": [
     {

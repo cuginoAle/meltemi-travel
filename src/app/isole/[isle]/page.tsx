@@ -7,6 +7,7 @@ import setting from 'content/settings.json';
 import Image from 'next/image';
 import { Hr } from '@/app/components/hr';
 import Link from 'next/link';
+import { AccomodationCard } from '@/app/components/accomodation/card';
 
 export default function Isle({
   params: { isle },
@@ -16,7 +17,7 @@ export default function Isle({
   const isleData: IsleType = readJsonFile(islesFolderName, isle + '.json');
   const accomodations = getFolderEntries(accomodationsFolderName)
     .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
-    .filter((accomodation) => accomodation.isole.includes(isle));
+    .filter((accomodation) => accomodation.isole.includes(isleData.nome));
 
   return (
     <main>
@@ -44,7 +45,7 @@ export default function Isle({
           />
 
           <h1 className="absolute bottom-0 font-light text-3xl lg:text-5xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-tr-2xl lg:rounded-tr-4xl text-white text-shadow-sm">
-            {isle}
+            {isleData.nome}
           </h1>
         </div>
         <Hr />
@@ -56,21 +57,22 @@ export default function Isle({
         </div>
 
         {accomodations.map((accomodation) => (
-          <div key={accomodation.nome}>
-            <Image
-              sizes="(min-width:1280px) 100vw, 1280px"
-              width={400}
-              height={300}
-              src={accomodation.foto[0].url + '?gid=' + new Date().getTime()}
-              alt=""
-            />
-            <div className="max-w-screen-xl mx-auto bg-white">
-              <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">
-                <h2 className="text-2xl font-bold">{accomodation.nome}</h2>
-                <p>{accomodation.description}</p>
-              </div>
-            </div>
-          </div>
+          <AccomodationCard key={accomodation.nome} {...accomodation} />
+          // <div key={accomodation.nome}>
+          //   <Image
+          //     sizes="(min-width:1280px) 100vw, 1280px"
+          //     width={400}
+          //     height={300}
+          //     src={accomodation.foto[0].url + '?gid=' + new Date().getTime()}
+          //     alt=""
+          //   />
+          //   <div className="max-w-screen-xl mx-auto bg-white">
+          //     <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">
+          //       <h2 className="text-2xl font-bold">{accomodation.nome}</h2>
+          //       <p>{accomodation.description}</p>
+          //     </div>
+          //   </div>
+          // </div>
         ))}
       </div>
     </main>

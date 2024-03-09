@@ -2,28 +2,31 @@ import { getFolderEntries, readJsonFile } from '@/app/utils/fs';
 import { MediaCarousel } from '../mediaCarousel';
 import carouselStyle from '../mediaCarousel/style.module.css';
 import { isleGroupFolderName, islesFolderName } from '@/app/constants';
-import { Isle, IslesGroup } from '@/app/types';
+import { IsleFile, IslesGroup } from '@/app/types';
 
 async function getGroupData() {
-  const data = getFolderEntries(isleGroupFolderName);
+  const groups = getFolderEntries(isleGroupFolderName);
 
-  return data.map((file) => {
+  return groups.map((file) => {
     return readJsonFile(isleGroupFolderName, file) as IslesGroup;
   });
 }
 
 async function getIslesData() {
-  const data = getFolderEntries(islesFolderName);
+  const isles = getFolderEntries(islesFolderName);
 
-  return data.map((file) => {
-    return readJsonFile(islesFolderName, file) as Isle;
+  return isles.map((file) => {
+    return {
+      ...readJsonFile(islesFolderName, file),
+      fileName: file.replace('.json', ''),
+    } as IsleFile;
   });
 }
 
-const Card = (isola: Isle) => {
+const Card = (isola: IsleFile) => {
   return (
     <a
-      href={`${islesFolderName}/${isola.nome}`}
+      href={`${islesFolderName}/${isola.fileName}`}
       className={`${carouselStyle.slideAnchor} relative`}
     >
       <img
