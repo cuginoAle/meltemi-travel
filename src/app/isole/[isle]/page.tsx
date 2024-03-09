@@ -1,4 +1,4 @@
-import { Isle as IsleType } from '@/app/types';
+import { Accommodation, Isle as IsleType } from '@/app/types';
 import { accomodationsFolderName, islesFolderName } from '../../constants';
 import { getFolderEntries, readJsonFile } from '../../utils/fs';
 
@@ -7,7 +7,8 @@ import setting from 'content/settings.json';
 import Image from 'next/image';
 import { Hr } from '@/app/components/hr';
 import Link from 'next/link';
-import { AccomodationCard } from '@/app/components/accomodation/card';
+
+import { Accomodations } from './components/accomodations';
 
 export default function Isle({
   params: { isle },
@@ -15,12 +16,14 @@ export default function Isle({
   params: { isle: string };
 }) {
   const isleData: IsleType = readJsonFile(islesFolderName, isle + '.json');
-  const accomodations = getFolderEntries(accomodationsFolderName)
+  const accomodations: Accommodation[] = getFolderEntries(
+    accomodationsFolderName,
+  )
     .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
-    .filter((accomodation) => accomodation.isole.includes(isleData.nome));
+    .filter((accomodation) => accomodation.isola.includes(isleData.nome));
 
   return (
-    <main>
+    <main className="pb-8">
       <div className="max-w-screen-xl mx-auto bg-white">
         <Link href="/" className=" gap-3 lg:gap-4 items-center p-2 inline-flex">
           <Image
@@ -34,8 +37,6 @@ export default function Isle({
           </h1>
         </Link>
 
-        <Hr />
-
         <div className="relative aspect-[2/1]">
           <Image
             sizes="(min-width:1280px) 100vw, 1280px"
@@ -48,32 +49,18 @@ export default function Isle({
             {isleData.nome}
           </h1>
         </div>
-        <Hr />
       </div>
 
       <div className="max-w-screen-xl mx-auto bg-white">
+        <Hr />
         <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">
           <p>{isleData.long_description}</p>
         </div>
+        <Hr />
 
-        {accomodations.map((accomodation) => (
-          <AccomodationCard key={accomodation.nome} {...accomodation} />
-          // <div key={accomodation.nome}>
-          //   <Image
-          //     sizes="(min-width:1280px) 100vw, 1280px"
-          //     width={400}
-          //     height={300}
-          //     src={accomodation.foto[0].url + '?gid=' + new Date().getTime()}
-          //     alt=""
-          //   />
-          //   <div className="max-w-screen-xl mx-auto bg-white">
-          //     <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">
-          //       <h2 className="text-2xl font-bold">{accomodation.nome}</h2>
-          //       <p>{accomodation.description}</p>
-          //     </div>
-          //   </div>
-          // </div>
-        ))}
+        <div className="p-2 md:p-4 lg:p-8">
+          <Accomodations accomodations={accomodations} />
+        </div>
       </div>
     </main>
   );

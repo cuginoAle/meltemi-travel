@@ -107,6 +107,12 @@ collections:
           required: false,
         },
         {
+          label: 'Descrizione breve',
+          name: 'short_description',
+          widget: 'markdown',
+          required: false,
+        },
+        {
           name: 'isola',
           widget: 'relation',
           collection: 'isola',
@@ -135,6 +141,12 @@ collections:
                 name: 'description',
                 widget: 'markdown',
                 required: false,
+              },
+              {
+                label: 'Posti letto',
+                name: 'posti_letto',
+                widget: 'number',
+                required: true,
               },
               {
                 label: 'Foto',

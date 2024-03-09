@@ -19,6 +19,7 @@ interface IslesGroup {
 interface Accommodation {
   nome: string;
   description: string;
+  short_description: string;
   isola: string;
   foto: Photo[];
   alloggi: Alloggio[];
@@ -33,5 +34,6 @@ interface Alloggio {
   prezzo: number;
   description: string;
   foto: Photo[];
+  posti_letto: number;
 }
 export type { Isle, IslesGroup, IsleFile, Accommodation, Alloggio };
