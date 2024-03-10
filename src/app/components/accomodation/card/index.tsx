@@ -22,7 +22,7 @@ const AccomodationCard = ({
     scrollPadding: '0 8px 0 0',
   });
   return (
-    <div className="flex flex-col rounded-md overflow-hidden  shadow-md">
+    <div className="flex flex-col rounded-md overflow-hidden bg-white shadow-md">
       <div className="relative">
         <div ref={scrollAreaRef} className="flex gap-4" style={scrollAreaStyle}>
           {foto.map(({ url }) => (

@@ -181,6 +181,7 @@ collections:
             ],
         },
       ]
+
   - label: 'settings'
     name: 'settings'
     files:
@@ -196,6 +197,17 @@ collections:
         fields:
           [
             { label: 'Intro', name: 'intro', widget: 'markdown' },
+            {
+              label: 'In evidenza',
+              name: 'in_evidenza',
+              widget: 'relation',
+              collection: 'accomodation',
+              value_field: 'nome',
+              search_fields: ['nome'],
+              display_fields: ['nome'],
+              multiple: true,
+              required: false,
+            },
             {
               label: 'Foto',
               name: 'picture',

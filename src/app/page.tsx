@@ -4,15 +4,27 @@ import { Intro } from './components/intro';
 import { MediaCarousel } from './components/mediaCarousel';
 import { Metadata } from 'next';
 import settings from 'content/settings.json';
+import home from 'content/homepage.json';
 import { Group } from './components/group';
+import { Accommodation } from './types';
+import { AccomodationCard } from './components/accomodation/card';
+import { accomodationsFolderName } from './constants';
+import { getFolderEntries, readJsonFile } from './utils/fs';
 
-const getItems = () =>
-  new Array(40)
-    .fill(0)
-    .map(
-      (_, index) =>
-        `https://source.unsplash.com/random/900x900/?greek%20islands?sig=${index}`,
-    );
+const getItems = () => {
+  return getFolderEntries(accomodationsFolderName)
+    .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
+    .filter((accomodation) => home.in_evidenza.includes(accomodation.nome))
+    .map((accomodation) => (
+      <AccomodationCard key={accomodation.nome} {...accomodation} />
+    ));
+};
+// new Array(40)
+//   .fill(0)
+//   .map(
+//     (_, index) =>
+//       `https://source.unsplash.com/random/900x900/?greek%20islands?sig=${index}`,
+//   );
 
 export const metadata: Metadata = {
   title: settings.title,

@@ -57,7 +57,8 @@ export default function Isle({
           <p>{isleData.long_description}</p>
         </div>
         <Hr />
-
+      </div>
+      <div className="max-w-screen-xl mx-auto">
         <div className="p-2 md:p-4 lg:p-8">
           <Accomodations accomodations={accomodations} />
         </div>
