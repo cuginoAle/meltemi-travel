@@ -25,7 +25,16 @@ export default function RootLayout({
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
         strategy="lazyOnload"
       />
-      <body className={`${font.className}`}>{children}</body>
+      <body className={`${font.className}`}>
+        {children}
+        <footer>
+          <div className="max-w-screen-xl bg-white m-auto p-4 lg:p-8">
+            <p className="text-primary-500 text-right">
+              &copy; 1992 Meltemi travel
+            </p>
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }
