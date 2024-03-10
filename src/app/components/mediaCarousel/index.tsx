@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../button/button';
 
 import style from './style.module.css';
@@ -33,6 +33,7 @@ Props) => {
   const [leftTwilightAreaWidth, setLeftTwilightAreaWidth] = useState('0px');
   const [rightTwilightAreaWidth, setRightTwilightAreaWidth] = useState('0px');
   const maxViewportWidth = 1280; //slideWidth * slidesPerPage + 16 * slidesPerPage;
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const [isHovering, setIsHovering] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -40,6 +41,7 @@ Props) => {
   const cssVars = {
     '--maxViewportWidth': maxViewportWidth + 'px',
     '--slideWidth': slideWidth + 'px',
+    visibility: 'hidden',
   } as React.CSSProperties;
 
   const getTwilightAreaWidth = useCallback(
@@ -78,7 +80,7 @@ Props) => {
     } else scrollNextPage();
   }, [isLastPage, scrollNextPage, scrollToIndex]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLeftTwilightAreaWidth(getTwilightAreaWidth());
     setRightTwilightAreaWidth(getTwilightAreaWidth(slideWidth));
 
@@ -90,6 +92,8 @@ Props) => {
     window.addEventListener('resize', handleResize);
     handleResize();
 
+    wrapperRef.current!.style.visibility = 'visible';
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -97,6 +101,7 @@ Props) => {
 
   return (
     <div
+      ref={wrapperRef}
       style={cssVars}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

@@ -22,7 +22,7 @@ const AccomodationCard = ({
     scrollPadding: '0 8px 0 0',
   });
   return (
-    <div className="flex flex-col rounded-md overflow-hidden bg-white shadow-md">
+    <div className="flex flex-col rounded-md overflow-hidden bg-white shadow-md h-full">
       <div className="relative">
         <div ref={scrollAreaRef} className="flex gap-4" style={scrollAreaStyle}>
           {foto.map(({ url }) => (
@@ -37,7 +37,7 @@ const AccomodationCard = ({
           </div>
         )}
       </div>
-      <div className="p-2 flex flex-col gap-2">
+      <div className="p-4 flex flex-col gap-2">
         <h2 className="flex justify-between items-center">
           {nome}{' '}
           <span className="font-bold ml-1">

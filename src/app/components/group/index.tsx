@@ -31,7 +31,7 @@ const Card = (isola: IsleFile) => {
     >
       <img
         className={carouselStyle.img}
-        src={isola.foto[0].url + '&gid=' + isola.nome}
+        src={isola.foto[0].url}
         alt=""
         loading="lazy"
       />

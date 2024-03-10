@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import settings from 'content/settings.json';
 import home from 'content/homepage.json';
 import { Group } from './components/group';
-import { Accommodation } from './types';
+
 import { AccomodationCard } from './components/accomodation/card';
 import { accomodationsFolderName } from './constants';
 import { getFolderEntries, readJsonFile } from './utils/fs';
@@ -19,12 +19,6 @@ const getItems = () => {
       <AccomodationCard key={accomodation.nome} {...accomodation} />
     ));
 };
-// new Array(40)
-//   .fill(0)
-//   .map(
-//     (_, index) =>
-//       `https://source.unsplash.com/random/900x900/?greek%20islands?sig=${index}`,
-//   );
 
 export const metadata: Metadata = {
   title: settings.title,
@@ -48,6 +42,12 @@ export default function Home() {
           <Intro />
         </div>
         <Hr />
+      </div>
+
+      <div className="max-w-screen-xl mx-auto ">
+        <h3 className="text-3xl md:text-5xl text-center mt-8 font-bold text-primary-500">
+          Le nostre destinazioni
+        </h3>
       </div>
       <Group />
     </main>

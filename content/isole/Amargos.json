@@ -1,16 +1,22 @@
 {
   "nome": "Amorgos",
-  "short_description": "asdasdada asdasda sdasdasd asda",
-  "long_description": " asd asdas da",
+  "short_description": "l'isola del profondo blu, il lato mistico delle cicladi: un'esperienza indimenticabile",
+  "long_description": "L'isola del profondo blu, il lato mistico delle **cicladi**: un'esperienza indimenticabile!",
   "foto": [
     {
-      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands"
+      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands?gid=20"
     },
     {
-      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands"
+      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands?gid=21"
     },
     {
-      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands"
+      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands?gid=22"
+    },
+    {
+      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands?gid=23"
+    },
+    {
+      "url": "https://source.unsplash.com/random/1200x600/?greek%20islands?gid=24"
     }
   ]
 }
