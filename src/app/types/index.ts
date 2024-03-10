@@ -7,6 +7,7 @@ interface Isle {
   short_description: string;
   long_description: string;
   foto: Photo[];
+  mappa?: string;
 }
 
 interface IslesGroup {

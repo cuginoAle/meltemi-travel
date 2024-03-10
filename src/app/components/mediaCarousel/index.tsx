@@ -30,6 +30,7 @@ const MediaCarousel = ({
   slideWidth = 300,
 }: // slidesPerPage = 4,
 Props) => {
+  const [screenWidth, setScreenWidth] = useState(0);
   const [leftTwilightAreaWidth, setLeftTwilightAreaWidth] = useState('0px');
   const [rightTwilightAreaWidth, setRightTwilightAreaWidth] = useState('0px');
   const maxViewportWidth = 1280; //slideWidth * slidesPerPage + 16 * slidesPerPage;
@@ -85,8 +86,14 @@ Props) => {
     setRightTwilightAreaWidth(getTwilightAreaWidth(slideWidth));
 
     const handleResize = () => {
-      setRightTwilightAreaWidth(getTwilightAreaWidth(60));
+      // get the screen width
+      const screenWidth = document.documentElement.clientWidth;
+
+      setRightTwilightAreaWidth(
+        getTwilightAreaWidth(screenWidth > 768 ? 60 : 10),
+      );
       setLeftTwilightAreaWidth(getTwilightAreaWidth(10));
+      setScreenWidth(screenWidth);
     };
 
     window.addEventListener('resize', handleResize);
@@ -162,31 +169,33 @@ Props) => {
             width: rightTwilightAreaWidth,
           }}
         >
-          <>
-            <Button
-              disabled={isFirstPage}
-              onClick={scrollPrevPage}
-              className={`${style.navButton} ${style.prevButton}`}
-            >
-              &#8249;
-            </Button>
+          {screenWidth > 768 && (
+            <>
+              <Button
+                disabled={isFirstPage}
+                onClick={scrollPrevPage}
+                className={`${style.navButton} ${style.prevButton}`}
+              >
+                &#8249;
+              </Button>
 
-            <Button
-              disabled={isLastPage}
-              onClick={scrollNextPage}
-              className={`${style.navButton} ${style.nextButton}`}
-            >
-              &#8250;
-            </Button>
-            {!!autoPlay && (
-              <Progress
-                className={style.progress}
-                isRunning={!isHovering && !isFocused && !!autoPlay}
-                interval={autoPlay}
-                onComplete={onTick}
-              />
-            )}
-          </>
+              <Button
+                disabled={isLastPage}
+                onClick={scrollNextPage}
+                className={`${style.navButton} ${style.nextButton}`}
+              >
+                &#8250;
+              </Button>
+              {!!autoPlay && (
+                <Progress
+                  className={style.progress}
+                  isRunning={!isHovering && !isFocused && !!autoPlay}
+                  interval={autoPlay}
+                  onComplete={onTick}
+                />
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -74,6 +74,7 @@ collections:
           widget: 'markdown',
           required: false,
         },
+        { label: 'Mappa', name: 'mappa', widget: 'string', required: false },
         {
           label: 'Foto',
           name: 'foto',
