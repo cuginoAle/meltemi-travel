@@ -51,6 +51,7 @@ const Group = async () => {
       <div key={gruppo.nome}>
         <MediaCarousel
           title={gruppo.nome}
+          slideWidth={1280 / 5 - 16}
           items={isole
             .filter((isola) => gruppo.isole.includes(isola.nome))
             .map((isola) => (

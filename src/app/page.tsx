@@ -10,6 +10,11 @@ import { Group } from './components/group';
 import { AccomodationCard } from './components/accomodation/card';
 import { accomodationsFolderName } from './constants';
 import { getFolderEntries, readJsonFile } from './utils/fs';
+import { Grandstander } from 'next/font/google';
+
+const titleFont = Grandstander({
+  subsets: ['latin'],
+});
 
 const getItems = () => {
   return getFolderEntries(accomodationsFolderName)
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
   description: settings.subtitle,
 };
 
-const slideWidth = 1280 / 4 - 16;
+const slideWidth = 1280 / 5 - 16;
 
 export default function Home() {
   return (
@@ -45,7 +50,9 @@ export default function Home() {
       </div>
 
       <div className="max-w-screen-xl mx-auto ">
-        <h3 className="text-3xl md:text-5xl text-center mt-8 font-bold text-primary-500">
+        <h3
+          className={` text-3xl md:text-5xl text-center mt-8 font-bold text-primary-500`}
+        >
           Le nostre destinazioni
         </h3>
       </div>

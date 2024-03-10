@@ -6,6 +6,12 @@ import style from './style.module.css';
 
 import { Progress } from '../progress';
 import { useAcCarousel } from 'use-ac-carousel';
+import { Grandstander } from 'next/font/google';
+
+const titleFont = Grandstander({
+  variable: '--font-grandstander',
+  subsets: ['latin'],
+});
 
 interface Props {
   items: React.ReactNode[];
@@ -89,9 +95,10 @@ Props) => {
       // get the screen width
       const screenWidth = document.documentElement.clientWidth;
 
-      setRightTwilightAreaWidth(
-        getTwilightAreaWidth(screenWidth > 768 ? 60 : 10),
-      );
+      const showNavButtons =
+        screenWidth > 768 && items.length > visibleIndexes.length;
+
+      setRightTwilightAreaWidth(getTwilightAreaWidth(showNavButtons ? 60 : 10));
       setLeftTwilightAreaWidth(getTwilightAreaWidth(10));
       setScreenWidth(screenWidth);
     };
@@ -104,7 +111,10 @@ Props) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [getTwilightAreaWidth, slideWidth]);
+  }, [getTwilightAreaWidth, slideWidth, items.length, visibleIndexes.length]);
+
+  const showNavButtons =
+    screenWidth > 768 && items.length > visibleIndexes.length;
 
   return (
     <div
@@ -116,86 +126,91 @@ Props) => {
       onBlur={() => setIsFocused(false)}
     >
       <div className={style.carouselWrapper}>
-        <h2 className={style.carouselTitle}>{title}</h2>
-        <ul
-          aria-label={ariaLabel}
-          ref={scrollAreaRef}
-          className={style.scrollArea}
-          style={{
-            ...scrollAreaStyle,
-            padding: `8px ${rightTwilightAreaWidth} 8px ${leftTwilightAreaWidth}`,
-          }}
-        >
-          {items.map((item, index) => (
-            <li key={index} className={style.li}>
-              <div
-                className={`${style.liInnerWrapper} ${
-                  visibleIndexes.includes(index) ? style.visible : ''
-                }`}
-              >
-                {typeof item === 'string' ? (
-                  <a href="" key={index} className={style.slideAnchor}>
-                    <img
-                      className={style.img}
-                      src={item}
-                      alt=""
-                      loading="lazy"
-                    />
-                    <div className={style.copyWrapper}>
-                      <h2 className={style.slideTitle}>Slide title here</h2>
-                      <p className="font-light text-gray-400">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Quia voluptatibus, voluptate molestias.
-                      </p>
-                    </div>
-                  </a>
-                ) : (
-                  item
+        <h2 className={`${style.carouselTitle} ${titleFont.className}`}>
+          {title}
+        </h2>
+
+        <div className={style.mainContent}>
+          <ul
+            aria-label={ariaLabel}
+            ref={scrollAreaRef}
+            className={style.scrollArea}
+            style={{
+              ...scrollAreaStyle,
+              padding: `8px ${rightTwilightAreaWidth} 8px ${leftTwilightAreaWidth}`,
+            }}
+          >
+            {items.map((item, index) => (
+              <li key={index} className={style.li}>
+                <div
+                  className={`${style.liInnerWrapper} ${
+                    visibleIndexes.includes(index) ? style.visible : ''
+                  }`}
+                >
+                  {typeof item === 'string' ? (
+                    <a href="" key={index} className={style.slideAnchor}>
+                      <img
+                        className={style.img}
+                        src={item}
+                        alt=""
+                        loading="lazy"
+                      />
+                      <div className={style.copyWrapper}>
+                        <h2 className={style.slideTitle}>Slide title here</h2>
+                        <p className="font-light text-gray-400">
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Quia voluptatibus, voluptate molestias.
+                        </p>
+                      </div>
+                    </a>
+                  ) : (
+                    item
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div
+            className={`${style.twilightArea} ${style.leftTwilightArea}`}
+            style={{
+              width: leftTwilightAreaWidth,
+            }}
+          />
+          <div
+            className={`${style.twilightArea} ${style.rightTwilightArea}`}
+            style={{
+              width: rightTwilightAreaWidth,
+            }}
+          >
+            {showNavButtons && (
+              <>
+                <Button
+                  disabled={isFirstPage}
+                  onClick={scrollPrevPage}
+                  className={`${style.navButton} ${style.prevButton}`}
+                >
+                  &#8249;
+                </Button>
+
+                <Button
+                  disabled={isLastPage}
+                  onClick={scrollNextPage}
+                  className={`${style.navButton} ${style.nextButton}`}
+                >
+                  &#8250;
+                </Button>
+                {!!autoPlay && (
+                  <Progress
+                    className={style.progress}
+                    isRunning={!isHovering && !isFocused && !!autoPlay}
+                    interval={autoPlay}
+                    onComplete={onTick}
+                  />
                 )}
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div
-          className={`${style.twilightArea} ${style.leftTwilightArea}`}
-          style={{
-            width: leftTwilightAreaWidth,
-          }}
-        />
-        <div
-          className={`${style.twilightArea} ${style.rightTwilightArea}`}
-          style={{
-            width: rightTwilightAreaWidth,
-          }}
-        >
-          {screenWidth > 768 && (
-            <>
-              <Button
-                disabled={isFirstPage}
-                onClick={scrollPrevPage}
-                className={`${style.navButton} ${style.prevButton}`}
-              >
-                &#8249;
-              </Button>
-
-              <Button
-                disabled={isLastPage}
-                onClick={scrollNextPage}
-                className={`${style.navButton} ${style.nextButton}`}
-              >
-                &#8250;
-              </Button>
-              {!!autoPlay && (
-                <Progress
-                  className={style.progress}
-                  isRunning={!isHovering && !isFocused && !!autoPlay}
-                  interval={autoPlay}
-                  onComplete={onTick}
-                />
-              )}
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

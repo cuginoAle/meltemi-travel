@@ -4,8 +4,8 @@ import './globals.css';
 
 import Script from 'next/script';
 
-const font = Kumbh_Sans({
-  variable: '--font',
+const mainFont = Kumbh_Sans({
+  variable: '--font-kumbh-sans',
   subsets: ['latin'],
 });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
         src="https://identity.netlify.com/v1/netlify-identity-widget.js"
         strategy="lazyOnload"
       />
-      <body className={`${font.className}`}>
+      <body className={`${mainFont.className}`}>
         {children}
         <footer>
           <div className="max-w-screen-xl bg-white m-auto p-4 lg:p-8">

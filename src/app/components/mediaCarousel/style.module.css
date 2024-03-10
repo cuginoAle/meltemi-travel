@@ -4,6 +4,10 @@
   transform: translateX(-100%) translateY(-50%);
   transition: background-color 0.3s, color 0.3s;
 }
+
+.navButton:disabled {
+  opacity: 0.2;
+}
 .navButton:not([disabled]):hover {
   @apply bg-primary-300;
   /* color: black; */
@@ -26,6 +30,9 @@
 
 .scrollArea {
   gap: 16px;
+}
+.mainContent {
+  position: relative;
 }
 
 .twilightArea {
@@ -139,11 +146,11 @@
 
 .carouselTitle {
   font-size: 24px;
-  font-weight: bold;
+  /* font-weight: lighter; */
   @apply text-primary-500;
   margin: 0 auto;
   position: relative;
   z-index: 11;
-  max-width: calc(var(--maxViewportWidth) + 48px);
+  max-width: calc(var(--maxViewportWidth) + 24px);
   padding-left: 24px;
 }
