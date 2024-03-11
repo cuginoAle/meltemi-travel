@@ -3,6 +3,7 @@ import { MediaCarousel } from '../mediaCarousel';
 import carouselStyle from '../mediaCarousel/style.module.css';
 import { isleGroupFolderName, islesFolderName } from '@/app/constants';
 import { IsleFile, IslesGroup } from '@/app/types';
+import Link from 'next/link';
 
 async function getGroupData() {
   const groups = getFolderEntries(isleGroupFolderName);
@@ -25,7 +26,7 @@ async function getIslesData() {
 
 const Card = (isola: IsleFile) => {
   return (
-    <a
+    <Link
       href={`${islesFolderName}/${isola.fileName}`}
       className={`${carouselStyle.slideAnchor} relative`}
     >
@@ -39,7 +40,7 @@ const Card = (isola: IsleFile) => {
       <h2 className="absolute bottom-0 font-light text-3xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-tr-lg text-white text-shadow-sm">
         {isola.nome}
       </h2>
-    </a>
+    </Link>
   );
 };
 const Group = async () => {
