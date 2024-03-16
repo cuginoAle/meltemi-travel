@@ -1,20 +1,21 @@
-interface IsleFile extends Isle {
-  fileName: string;
-}
-
 interface Isle {
   nome: string;
   short_description: string;
-  long_description: string;
-  foto: Photo[];
-  mappa?: string;
+  long_description?: string;
+  foto: foto[];
+  coordinate: {
+    formattedAddress: string;
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 }
 
 interface IslesGroup {
   nome: string;
   short_description: string;
-  isole: string[];
-  foto: Photo[];
+  isole: Isle[];
+  foto: foto[];
 }
 
 interface Accommodation {
@@ -22,19 +23,20 @@ interface Accommodation {
   description: string;
   short_description: string;
   isola: string;
-  foto: Photo[];
+  foto: foto[];
   alloggi: Alloggio[];
 }
 
-interface Photo {
-  url: string;
+interface foto {
+  src: string;
+  dominantColor: string;
 }
 
 interface Alloggio {
   nome: string;
   prezzo: number;
   description: string;
-  foto: Photo[];
+  foto: foto[];
   posti_letto: number;
 }
-export type { Isle, IslesGroup, IsleFile, Accommodation, Alloggio };
+export type { Isle, IslesGroup, Accommodation, Alloggio };

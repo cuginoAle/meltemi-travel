@@ -147,25 +147,7 @@ Props) => {
                     visibleIndexes.includes(index) ? style.visible : ''
                   }`}
                 >
-                  {typeof item === 'string' ? (
-                    <a href="" key={index} className={style.slideAnchor}>
-                      <img
-                        className={style.img}
-                        src={item}
-                        alt=""
-                        loading="lazy"
-                      />
-                      <div className={style.copyWrapper}>
-                        <h2 className={style.slideTitle}>Slide title here</h2>
-                        <p className="font-light text-gray-400">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Quia voluptatibus, voluptate molestias.
-                        </p>
-                      </div>
-                    </a>
-                  ) : (
-                    item
-                  )}
+                  {item}
                 </div>
               </li>
             ))}
