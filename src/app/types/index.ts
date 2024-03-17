@@ -22,7 +22,7 @@ interface Accommodation {
   nome: string;
   description: string;
   short_description: string;
-  isola: string;
+  isola: Isle;
   foto: foto[];
   alloggi: Alloggio[];
 }
