@@ -1,47 +1,68 @@
-import { Isle, IslesGroup } from '../types';
+import { Isola } from '.';
 import { graphQLClient, gql } from './client';
 
-const getIsleByName = (name?: string) => {
-  const where = name ? `(where: {nome: {eq: "${name}"}})` : '';
+const query = (nomeIsola?: string) => {
+  const where = nomeIsola ? `(where: {nome: "${nomeIsola}"})` : '';
 
   return gql`
-    query {
-      allIsola ${where} {
-        edges {
-          node {
-            coordinate {
-              formattedAddress
-              latitude
-              longitude
-              zoom
-            }
+    query Isola {
+      isola ${where} {
+        nome
+        short_descrizione
+        foto {
+          url
+        }
+        coordinate {
+          latitude
+          longitude
+        }
+        strutture {
+          nome
+          slug
+          long_description
+          foto {
+            url
+          }
+          alloggios {
+            descrizione
             nome
-            short_description
-            foto {
-              ... on Asset {
-                dominantColor
-                src
+            prezzi {
+              ... on FasciaDiPrezzo {
+                prezzo
+                fascia {
+                  al
+                  nome
+                  dal
+                }
               }
             }
+            foto {
+              url
+            }
+            postiLetto
           }
-        }
-        totalCount
+        }  
       }
     }
-  `;
+`;
 };
+
+const allIsles = gql`
+  query Isole {
+    isole {
+      nome
+    }
+  }
+`;
 
 const fetchAllIsles = () =>
   graphQLClient
-    .request(getIsleByName())
-    .then(
-      (data: any) =>
-        data.allIsola.edges.map((edge: any) => edge.node) as IslesGroup[],
-    );
+    .request(allIsles)
+    .then((data: any) => data.isole as Promise<Isola[]>);
 
-const fetchIsleByName = (name: string) =>
+const fetchIsola = (nomeIsola: string) =>
   graphQLClient
-    .request(getIsleByName(name))
-    .then((data: any) => data.allIsola.edges[0].node as Isle);
+    .request(query(nomeIsola))
+    .then((data: any) => data.isola as Promise<Isola>);
 
-export { fetchAllIsles, fetchIsleByName };
+export { fetchIsola, fetchAllIsles };

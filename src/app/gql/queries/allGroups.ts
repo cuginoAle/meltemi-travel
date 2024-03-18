@@ -1,5 +1,4 @@
-import { GruppoDiIsole } from '.';
-import { graphQLClient, gql } from './client';
+import { gql } from '../client';
 
 const query = gql`
   query GruppiDiIsole {
@@ -24,10 +23,3 @@ const query = gql`
     }
   }
 `;
-
-const fetchAllGroups = () =>
-  graphQLClient
-    .request(query)
-    .then((data: any) => data.gruppiDiIsole as Promise<GruppoDiIsole[]>);
-
-export { fetchAllGroups };

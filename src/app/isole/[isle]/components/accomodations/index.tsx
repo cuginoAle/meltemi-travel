@@ -1,8 +1,9 @@
 import { AccomodationCard } from '@/app/components/accomodation/card';
-import { Accommodation } from '@/app/types';
+
 import styles from './styles.module.css';
+import { Struttura } from '@/app/gql';
 interface AccomodationCardProps {
-  accomodations: Accommodation[];
+  accomodations: Struttura[];
 }
 
 const Accomodations = ({ accomodations }: AccomodationCardProps) => {

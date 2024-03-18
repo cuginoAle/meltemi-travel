@@ -1,18 +1,18 @@
 'use client';
-import { Accommodation } from '@/app/types';
+
 import Image from 'next/image';
 import { useAcCarousel } from 'use-ac-carousel';
 import person from '@/assets/person.svg';
 import { marked } from 'marked';
+import { Struttura } from '@/app/gql';
 
 const AccomodationCard = ({
   nome,
-  description,
-  short_description,
+  long_description,
   isola,
   foto,
-  alloggi,
-}: Accommodation) => {
+  alloggios,
+}: Struttura) => {
   const {
     scrollAreaRef,
 
@@ -42,19 +42,20 @@ const AccomodationCard = ({
           {nome}{' '}
           <span className="font-bold ml-1">
             €{' '}
-            {alloggi.reduce((acc, curr) => {
-              return curr.prezzo < acc ? curr.prezzo : acc;
-            }, alloggi[0].prezzo)}
+            {alloggios.reduce((acc, curr) => {
+              const miPrice = Math.min(...curr.prezzi.map((p) => p.prezzo));
+              return miPrice < acc ? miPrice : acc;
+            }, Math.min(...alloggios[0].prezzi.map((p) => p.prezzo)))}
           </span>
         </h2>
         <div className="flex justify-end">
           <div className="flex gap-2 ">
-            {alloggi
-              .sort((a, b) => a.posti_letto - b.posti_letto)
+            {alloggios
+              .sort((a, b) => a.postiLetto - b.postiLetto)
               .map((alloggio) => (
                 <div key={alloggio.nome}>
                   <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
-                    {alloggio.posti_letto} x{' '}
+                    {alloggio.postiLetto} x{' '}
                     <Image src={person} width={16} height={16} alt="" />{' '}
                   </p>
                 </div>
@@ -62,7 +63,8 @@ const AccomodationCard = ({
           </div>
         </div>
 
-        <div dangerouslySetInnerHTML={{ __html: marked(short_description) }} />
+        {/* <div dangerouslySetInnerHTML={{ __html: marked(long_description) }} /> */}
+        <div>{long_description}</div>
       </div>
     </div>
   );

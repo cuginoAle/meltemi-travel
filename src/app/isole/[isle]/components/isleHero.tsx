@@ -1,16 +1,15 @@
 'use client';
-import { Isle } from '@/app/types';
+import { Isola } from '@/app/gql';
 import { imageLoader } from '@/app/utils/imageLoader';
 import Image from 'next/image';
 
-const IsleHero = ({ isleData }: { isleData: Isle }) => {
+const IsleHero = ({ isleData }: { isleData: Isola }) => {
   return (
     <div className="relative aspect-[2/1]">
       <Image
         sizes="(max-width:1280px) 100vw, 1280px"
         fill
-        style={{ backgroundColor: isleData.foto[0].dominantColor }}
-        src={isleData.foto[0].src}
+        src={isleData.foto[0].url}
         alt=""
         loader={imageLoader}
       />

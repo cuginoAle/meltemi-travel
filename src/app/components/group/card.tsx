@@ -1,12 +1,13 @@
 'use client';
+import { Isola } from '@/app/gql';
 import carouselStyle from '../mediaCarousel/style.module.css';
 import { islesFolderName } from '@/app/constants';
-import { Isle } from '@/app/types';
+
 import { hygraphLoader } from '@/app/utils/imageLoader';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface CardProps extends Isle {
+interface CardProps extends Isola {
   cardWidth: number;
 }
 

@@ -17,9 +17,7 @@ const titleFont = Grandstander({
 });
 
 const getItems = () => {
-  return getFolderEntries(accomodationsFolderName)
-    .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
-    .filter((accomodation) => home.in_evidenza.includes(accomodation.nome))
+  //fetch all accomodations
     .map((accomodation) => (
       <AccomodationCard key={accomodation.nome} {...accomodation} />
     ));
