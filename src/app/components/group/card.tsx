@@ -2,7 +2,7 @@
 import carouselStyle from '../mediaCarousel/style.module.css';
 import { islesFolderName } from '@/app/constants';
 import { Isle } from '@/app/types';
-import { imageLoader } from '@/app/utils/imageLoader';
+import { hygraphLoader } from '@/app/utils/imageLoader';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,17 +14,16 @@ const Card = ({ cardWidth, ...isola }: CardProps) => {
   return (
     <Link
       href={`${islesFolderName}/${isola.nome}`}
-      className={`${carouselStyle.slideAnchor}`}
+      className={`${carouselStyle.slideAnchor} shadow-md border-4 border-white`}
     >
       <Image
         className={carouselStyle.img}
-        style={{ backgroundColor: isola.foto[0].dominantColor }}
-        src={isola.foto[0].src}
+        src={isola.foto[0].url}
         sizes={`${cardWidth}px`}
         fill
         alt=""
         loading="lazy"
-        loader={imageLoader}
+        loader={hygraphLoader}
       />
 
       <h2 className="absolute bottom-0 font-light text-3xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-tr-lg text-white text-shadow-sm">

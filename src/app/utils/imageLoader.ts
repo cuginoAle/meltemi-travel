@@ -11,4 +11,11 @@ const imageLoader = ({ src, width, quality = 80 }: ImageLoaderProps) => {
   return url.toString();
 };
 
-export { imageLoader };
+const hygraphLoader = ({ src, width, quality = 80 }: ImageLoaderProps) => {
+  const url = src.split('/');
+
+  url.splice(-1, 0, `resize=width:${width}`, `quality=value:${quality}`);
+  return url.join('/');
+};
+
+export { imageLoader, hygraphLoader };

@@ -6,11 +6,9 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'source.unsplash.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'assets.caisy.io',
-      },
     ],
+    deviceSizes: [420, 768, 1024, 1200, 1920],
+    imageSizes: [256],
   },
 };
 

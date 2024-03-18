@@ -13,7 +13,7 @@ const Group = async () => {
       <MediaCarousel
         title={gruppo.nome}
         slideWidth={cardWidth}
-        items={gruppo.isole.map((isola) => (
+        items={gruppo.isles.map((isola) => (
           <Card key={isola.nome} {...isola} cardWidth={cardWidth} />
         ))}
       />

@@ -14,7 +14,7 @@ interface Isle {
 interface IslesGroup {
   nome: string;
   short_description: string;
-  isole: Isle[];
+  isles: Isle[];
   foto: foto[];
 }
 
@@ -28,8 +28,7 @@ interface Accommodation {
 }
 
 interface foto {
-  src: string;
-  dominantColor: string;
+  url: string;
 }
 
 interface Alloggio {
