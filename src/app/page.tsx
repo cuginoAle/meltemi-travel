@@ -11,17 +11,19 @@ import { AccomodationCard } from './components/accomodation/card';
 import { accomodationsFolderName } from './constants';
 import { getFolderEntries, readJsonFile } from './utils/fs';
 import { Grandstander } from 'next/font/google';
+import { fetchAlloggioHP } from './gql';
 
 const titleFont = Grandstander({
   subsets: ['latin'],
 });
 
-const getItems = () => {
-  //fetch all accomodations
-    .map((accomodation) => (
-      <AccomodationCard key={accomodation.nome} {...accomodation} />
-    ));
-};
+// const getItems = () => {
+//   //fetch all accomodations
+//   fetchAlloggioHP().then((data) => {
+//     data.map((accomodation) => (
+//       <AccomodationCard key={accomodation.nome} {...accomodation} />
+//     ));
+// };
 
 export const metadata: Metadata = {
   title: settings.title,
@@ -34,11 +36,11 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <MediaCarousel
+      {/* <MediaCarousel
         title="Ultime proposte:"
         slideWidth={slideWidth}
         items={getItems()}
-      />
+      /> */}
       <div className="max-w-screen-xl mx-auto bg-white">
         <Hr />
         <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">

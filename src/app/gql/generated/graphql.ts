@@ -50,6 +50,7 @@ export type Alloggio = Entity & Node & {
   nome: Scalars['String']['output'];
   postiLetto: Scalars['Int']['output'];
   prezzi: Array<AlloggioprezziUnion>;
+  promuoviSuHomePage?: Maybe<Scalars['Boolean']['output']>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   /** User that last published this document */
@@ -156,6 +157,7 @@ export type AlloggioCreateInput = {
   nome: Scalars['String']['input'];
   postiLetto: Scalars['Int']['input'];
   prezzi?: InputMaybe<AlloggioprezziUnionCreateManyInlineInput>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -290,6 +292,9 @@ export type AlloggioManyWhereInput = {
   prezzi_empty?: InputMaybe<Scalars['Boolean']['input']>;
   /** Matches if the modular component contains at least one connection to the item provided to the filter */
   prezzi_some?: InputMaybe<AlloggioprezziUnionWhereInput>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  promuoviSuHomePage_not?: InputMaybe<Scalars['Boolean']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -338,6 +343,8 @@ export enum AlloggioOrderByInput {
   NomeDesc = 'nome_DESC',
   PostiLettoAsc = 'postiLetto_ASC',
   PostiLettoDesc = 'postiLetto_DESC',
+  PromuoviSuHomePageAsc = 'promuoviSuHomePage_ASC',
+  PromuoviSuHomePageDesc = 'promuoviSuHomePage_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -351,6 +358,7 @@ export type AlloggioUpdateInput = {
   nome?: InputMaybe<Scalars['String']['input']>;
   postiLetto?: InputMaybe<Scalars['Int']['input']>;
   prezzi?: InputMaybe<AlloggioprezziUnionUpdateManyInlineInput>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AlloggioUpdateManyInlineInput = {
@@ -373,6 +381,7 @@ export type AlloggioUpdateManyInlineInput = {
 export type AlloggioUpdateManyInput = {
   descrizione?: InputMaybe<Scalars['String']['input']>;
   postiLetto?: InputMaybe<Scalars['Int']['input']>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AlloggioUpdateManyWithNestedWhereInput = {
@@ -532,6 +541,9 @@ export type AlloggioWhereInput = {
   prezzi_empty?: InputMaybe<Scalars['Boolean']['input']>;
   /** Matches if the modular component contains at least one connection to the item provided to the filter */
   prezzi_some?: InputMaybe<AlloggioprezziUnionWhereInput>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  promuoviSuHomePage_not?: InputMaybe<Scalars['Boolean']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
