@@ -5,8 +5,9 @@ import { useAcCarousel } from 'use-ac-carousel';
 import person from '@/assets/person.svg';
 import { marked } from 'marked';
 import { Struttura } from '@/app/gql';
+import { Fragment } from 'react';
 
-const AccomodationCard = ({
+const StrutturaCard = ({
   nome,
   long_description,
   isola,
@@ -36,16 +37,22 @@ const AccomodationCard = ({
             ...
           </div>
         )}
+        <h2 className="absolute top-0 font-light text2xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-br-lg text-white text-shadow-sm">
+          {isola?.nome}
+        </h2>
       </div>
       <div className="p-4 flex flex-col gap-2">
         <h2 className="flex justify-between items-center">
-          {nome}{' '}
-          <span className="font-bold ml-1">
-            €{' '}
-            {alloggios.reduce((acc, curr) => {
-              const miPrice = Math.min(...curr.prezzi.map((p) => p.prezzo));
-              return miPrice < acc ? miPrice : acc;
-            }, Math.min(...alloggios[0].prezzi.map((p) => p.prezzo)))}
+          {nome}
+          <span>
+            da
+            <span className="font-bold ml-1">
+              €.
+              {alloggios.reduce((acc, curr) => {
+                const miPrice = Math.min(...curr.prezzi.map((p) => p.prezzo));
+                return miPrice < acc ? miPrice : acc;
+              }, Math.min(...alloggios[0].prezzi.map((p) => p.prezzo)))}
+            </span>
           </span>
         </h2>
         <div className="flex justify-end">
@@ -53,7 +60,7 @@ const AccomodationCard = ({
             {alloggios
               .sort((a, b) => a.postiLetto - b.postiLetto)
               .map((alloggio) => (
-                <div key={alloggio.nome}>
+                <div key={alloggio.id}>
                   <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
                     {alloggio.postiLetto} x{' '}
                     <Image src={person} width={16} height={16} alt="" />{' '}
@@ -63,11 +70,14 @@ const AccomodationCard = ({
           </div>
         </div>
 
-        {/* <div dangerouslySetInnerHTML={{ __html: marked(long_description) }} /> */}
-        <div>{long_description}</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: marked.parse(long_description || '', {}),
+          }}
+        ></div>
       </div>
     </div>
   );
 };
 
-export { AccomodationCard };
+export { StrutturaCard };

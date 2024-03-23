@@ -7,23 +7,23 @@ import settings from 'content/settings.json';
 import home from 'content/homepage.json';
 import { Group } from './components/group';
 
-import { AccomodationCard } from './components/accomodation/card';
+import { StrutturaCard } from './components/struttura/card';
 import { accomodationsFolderName } from './constants';
 import { getFolderEntries, readJsonFile } from './utils/fs';
 import { Grandstander } from 'next/font/google';
-import { fetchAlloggioHP } from './gql';
+import { fetchHpRecommendations } from './gql';
 
 const titleFont = Grandstander({
   subsets: ['latin'],
 });
 
-// const getItems = () => {
-//   //fetch all accomodations
-//   fetchAlloggioHP().then((data) => {
-//     data.map((accomodation) => (
-//       <AccomodationCard key={accomodation.nome} {...accomodation} />
-//     ));
-// };
+const getRecos = async () => {
+  return await fetchHpRecommendations().then((data) => {
+    return data.map((struttura) => (
+      <StrutturaCard key={struttura.nome} {...struttura} />
+    ));
+  });
+};
 
 export const metadata: Metadata = {
   title: settings.title,
@@ -32,15 +32,17 @@ export const metadata: Metadata = {
 
 const slideWidth = 1280 / 5 - 16;
 
-export default function Home() {
+export default async function Home() {
+  const recos = await getRecos();
+
   return (
     <main>
       <Hero />
-      {/* <MediaCarousel
+      <MediaCarousel
         title="Ultime proposte:"
         slideWidth={slideWidth}
-        items={getItems()}
-      /> */}
+        items={recos}
+      />
       <div className="max-w-screen-xl mx-auto bg-white">
         <Hr />
         <div className="p-3 py-5 md:p-6 lg:p-20 text-primary-300">

@@ -59,8 +59,8 @@ export default async function Isle({
       </div>
       <div className="max-w-screen-xl mx-auto">
         <div className="p-2 md:p-4 lg:p-8">
-          Accomodations here
-          {/* <Accomodations accomodations={accomodations} /> */}
+          {/* strutture */}
+          <Accomodations accomodations={isleData.strutture} />
         </div>
       </div>
     </main>
