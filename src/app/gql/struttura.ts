@@ -6,7 +6,7 @@ const query = (nomeIsola?: string) => {
 
   return gql`
   query strutturePerIsola {
-    strutturas ${where} {
+    strutture ${where} {
       alloggios(where: { promuoviSuHomePage: true }) {
         id
         postiLetto
@@ -21,6 +21,7 @@ const query = (nomeIsola?: string) => {
         url
       }
       long_description
+      short_description
       isola {
         nome
       }

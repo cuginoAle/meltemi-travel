@@ -55,6 +55,7 @@ export type Alloggio = Entity & Node & {
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
+  review: Array<Review>;
   scheduledIn: Array<ScheduledOperation>;
   /** System stage field */
   stage: Stage;
@@ -115,6 +116,19 @@ export type AlloggioPublishedByArgs = {
 };
 
 
+export type AlloggioReviewArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<ReviewOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ReviewWhereInput>;
+};
+
+
 export type AlloggioScheduledInArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -158,6 +172,7 @@ export type AlloggioCreateInput = {
   postiLetto: Scalars['Int']['input'];
   prezzi?: InputMaybe<AlloggioprezziUnionCreateManyInlineInput>;
   promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  review?: InputMaybe<ReviewCreateManyInlineInput>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -311,6 +326,9 @@ export type AlloggioManyWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
+  review_every?: InputMaybe<ReviewWhereInput>;
+  review_none?: InputMaybe<ReviewWhereInput>;
+  review_some?: InputMaybe<ReviewWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -359,6 +377,7 @@ export type AlloggioUpdateInput = {
   postiLetto?: InputMaybe<Scalars['Int']['input']>;
   prezzi?: InputMaybe<AlloggioprezziUnionUpdateManyInlineInput>;
   promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  review?: InputMaybe<ReviewUpdateManyInlineInput>;
 };
 
 export type AlloggioUpdateManyInlineInput = {
@@ -560,6 +579,9 @@ export type AlloggioWhereInput = {
   /** All values that are not contained in given list. */
   publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
+  review_every?: InputMaybe<ReviewWhereInput>;
+  review_none?: InputMaybe<ReviewWhereInput>;
+  review_some?: InputMaybe<ReviewWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
@@ -1643,6 +1665,7 @@ export enum EntityTypeName {
   FasciaStagionale = 'FasciaStagionale',
   GruppoDiIsole = 'GruppoDiIsole',
   Isola = 'Isola',
+  Review = 'Review',
   /** Scheduled Operation system model */
   ScheduledOperation = 'ScheduledOperation',
   /** Scheduled Release system model */
@@ -3719,6 +3742,8 @@ export type Mutation = {
   createGruppoDiIsole?: Maybe<GruppoDiIsole>;
   /** Create one isola */
   createIsola?: Maybe<Isola>;
+  /** Create one review */
+  createReview?: Maybe<Review>;
   /** Create one scheduledRelease */
   createScheduledRelease?: Maybe<ScheduledRelease>;
   /** Create one struttura */
@@ -3735,11 +3760,11 @@ export type Mutation = {
   deleteIsola?: Maybe<Isola>;
   /**
    * Delete many Alloggio documents
-   * @deprecated Please use the new paginated many mutation (deleteManyAlloggiosConnection)
+   * @deprecated Please use the new paginated many mutation (deleteManyAlloggiConnection)
    */
-  deleteManyAlloggios: BatchPayload;
+  deleteManyAlloggi: BatchPayload;
   /** Delete many Alloggio documents, return deleted documents */
-  deleteManyAlloggiosConnection: AlloggioConnection;
+  deleteManyAlloggiConnection: AlloggioConnection;
   /**
    * Delete many Asset documents
    * @deprecated Please use the new paginated many mutation (deleteManyAssetsConnection)
@@ -3769,12 +3794,21 @@ export type Mutation = {
   /** Delete many Isola documents, return deleted documents */
   deleteManyIsoleConnection: IsolaConnection;
   /**
-   * Delete many Struttura documents
-   * @deprecated Please use the new paginated many mutation (deleteManyStrutturasConnection)
+   * Delete many Review documents
+   * @deprecated Please use the new paginated many mutation (deleteManyReviewsConnection)
    */
-  deleteManyStrutturas: BatchPayload;
+  deleteManyReviews: BatchPayload;
+  /** Delete many Review documents, return deleted documents */
+  deleteManyReviewsConnection: ReviewConnection;
+  /**
+   * Delete many Struttura documents
+   * @deprecated Please use the new paginated many mutation (deleteManyStruttureConnection)
+   */
+  deleteManyStrutture: BatchPayload;
   /** Delete many Struttura documents, return deleted documents */
-  deleteManyStrutturasConnection: StrutturaConnection;
+  deleteManyStruttureConnection: StrutturaConnection;
+  /** Delete one review from _all_ existing stages. Returns deleted document. */
+  deleteReview?: Maybe<Review>;
   /** Delete and return scheduled operation */
   deleteScheduledOperation?: Maybe<ScheduledOperation>;
   /** Delete one scheduledRelease from _all_ existing stages. Returns deleted document. */
@@ -3793,11 +3827,11 @@ export type Mutation = {
   publishIsola?: Maybe<Isola>;
   /**
    * Publish many Alloggio documents
-   * @deprecated Please use the new paginated many mutation (publishManyAlloggiosConnection)
+   * @deprecated Please use the new paginated many mutation (publishManyAlloggiConnection)
    */
-  publishManyAlloggios: BatchPayload;
+  publishManyAlloggi: BatchPayload;
   /** Publish many Alloggio documents */
-  publishManyAlloggiosConnection: AlloggioConnection;
+  publishManyAlloggiConnection: AlloggioConnection;
   /**
    * Publish many Asset documents
    * @deprecated Please use the new paginated many mutation (publishManyAssetsConnection)
@@ -3827,12 +3861,21 @@ export type Mutation = {
   /** Publish many Isola documents */
   publishManyIsoleConnection: IsolaConnection;
   /**
-   * Publish many Struttura documents
-   * @deprecated Please use the new paginated many mutation (publishManyStrutturasConnection)
+   * Publish many Review documents
+   * @deprecated Please use the new paginated many mutation (publishManyReviewsConnection)
    */
-  publishManyStrutturas: BatchPayload;
+  publishManyReviews: BatchPayload;
+  /** Publish many Review documents */
+  publishManyReviewsConnection: ReviewConnection;
+  /**
+   * Publish many Struttura documents
+   * @deprecated Please use the new paginated many mutation (publishManyStruttureConnection)
+   */
+  publishManyStrutture: BatchPayload;
   /** Publish many Struttura documents */
-  publishManyStrutturasConnection: StrutturaConnection;
+  publishManyStruttureConnection: StrutturaConnection;
+  /** Publish one review */
+  publishReview?: Maybe<Review>;
   /** Publish one struttura */
   publishStruttura?: Maybe<Struttura>;
   /** Schedule to publish one alloggio */
@@ -3845,6 +3888,8 @@ export type Mutation = {
   schedulePublishGruppoDiIsole?: Maybe<GruppoDiIsole>;
   /** Schedule to publish one isola */
   schedulePublishIsola?: Maybe<Isola>;
+  /** Schedule to publish one review */
+  schedulePublishReview?: Maybe<Review>;
   /** Schedule to publish one struttura */
   schedulePublishStruttura?: Maybe<Struttura>;
   /** Unpublish one alloggio from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -3857,6 +3902,8 @@ export type Mutation = {
   scheduleUnpublishGruppoDiIsole?: Maybe<GruppoDiIsole>;
   /** Unpublish one isola from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishIsola?: Maybe<Isola>;
+  /** Unpublish one review from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  scheduleUnpublishReview?: Maybe<Review>;
   /** Unpublish one struttura from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishStruttura?: Maybe<Struttura>;
   /** Unpublish one alloggio from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -3871,11 +3918,11 @@ export type Mutation = {
   unpublishIsola?: Maybe<Isola>;
   /**
    * Unpublish many Alloggio documents
-   * @deprecated Please use the new paginated many mutation (unpublishManyAlloggiosConnection)
+   * @deprecated Please use the new paginated many mutation (unpublishManyAlloggiConnection)
    */
-  unpublishManyAlloggios: BatchPayload;
+  unpublishManyAlloggi: BatchPayload;
   /** Find many Alloggio documents that match criteria in specified stage and unpublish from target stages */
-  unpublishManyAlloggiosConnection: AlloggioConnection;
+  unpublishManyAlloggiConnection: AlloggioConnection;
   /**
    * Unpublish many Asset documents
    * @deprecated Please use the new paginated many mutation (unpublishManyAssetsConnection)
@@ -3905,12 +3952,21 @@ export type Mutation = {
   /** Find many Isola documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyIsoleConnection: IsolaConnection;
   /**
-   * Unpublish many Struttura documents
-   * @deprecated Please use the new paginated many mutation (unpublishManyStrutturasConnection)
+   * Unpublish many Review documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyReviewsConnection)
    */
-  unpublishManyStrutturas: BatchPayload;
+  unpublishManyReviews: BatchPayload;
+  /** Find many Review documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyReviewsConnection: ReviewConnection;
+  /**
+   * Unpublish many Struttura documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyStruttureConnection)
+   */
+  unpublishManyStrutture: BatchPayload;
   /** Find many Struttura documents that match criteria in specified stage and unpublish from target stages */
-  unpublishManyStrutturasConnection: StrutturaConnection;
+  unpublishManyStruttureConnection: StrutturaConnection;
+  /** Unpublish one review from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishReview?: Maybe<Review>;
   /** Unpublish one struttura from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishStruttura?: Maybe<Struttura>;
   /** Update one alloggio */
@@ -3924,12 +3980,12 @@ export type Mutation = {
   /** Update one isola */
   updateIsola?: Maybe<Isola>;
   /**
-   * Update many alloggios
-   * @deprecated Please use the new paginated many mutation (updateManyAlloggiosConnection)
+   * Update many alloggi
+   * @deprecated Please use the new paginated many mutation (updateManyAlloggiConnection)
    */
-  updateManyAlloggios: BatchPayload;
+  updateManyAlloggi: BatchPayload;
   /** Update many Alloggio documents */
-  updateManyAlloggiosConnection: AlloggioConnection;
+  updateManyAlloggiConnection: AlloggioConnection;
   /**
    * Update many assets
    * @deprecated Please use the new paginated many mutation (updateManyAssetsConnection)
@@ -3959,12 +4015,21 @@ export type Mutation = {
   /** Update many Isola documents */
   updateManyIsoleConnection: IsolaConnection;
   /**
-   * Update many strutturas
-   * @deprecated Please use the new paginated many mutation (updateManyStrutturasConnection)
+   * Update many reviews
+   * @deprecated Please use the new paginated many mutation (updateManyReviewsConnection)
    */
-  updateManyStrutturas: BatchPayload;
+  updateManyReviews: BatchPayload;
+  /** Update many Review documents */
+  updateManyReviewsConnection: ReviewConnection;
+  /**
+   * Update many strutture
+   * @deprecated Please use the new paginated many mutation (updateManyStruttureConnection)
+   */
+  updateManyStrutture: BatchPayload;
   /** Update many Struttura documents */
-  updateManyStrutturasConnection: StrutturaConnection;
+  updateManyStruttureConnection: StrutturaConnection;
+  /** Update one review */
+  updateReview?: Maybe<Review>;
   /** Update one scheduledRelease */
   updateScheduledRelease?: Maybe<ScheduledRelease>;
   /** Update one struttura */
@@ -3979,6 +4044,8 @@ export type Mutation = {
   upsertGruppoDiIsole?: Maybe<GruppoDiIsole>;
   /** Upsert one isola */
   upsertIsola?: Maybe<Isola>;
+  /** Upsert one review */
+  upsertReview?: Maybe<Review>;
   /** Upsert one struttura */
   upsertStruttura?: Maybe<Struttura>;
 };
@@ -4006,6 +4073,11 @@ export type MutationCreateGruppoDiIsoleArgs = {
 
 export type MutationCreateIsolaArgs = {
   data: IsolaCreateInput;
+};
+
+
+export type MutationCreateReviewArgs = {
+  data: ReviewCreateInput;
 };
 
 
@@ -4044,12 +4116,12 @@ export type MutationDeleteIsolaArgs = {
 };
 
 
-export type MutationDeleteManyAlloggiosArgs = {
+export type MutationDeleteManyAlloggiArgs = {
   where?: InputMaybe<AlloggioManyWhereInput>;
 };
 
 
-export type MutationDeleteManyAlloggiosConnectionArgs = {
+export type MutationDeleteManyAlloggiConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4119,18 +4191,38 @@ export type MutationDeleteManyIsoleConnectionArgs = {
 };
 
 
-export type MutationDeleteManyStrutturasArgs = {
+export type MutationDeleteManyReviewsArgs = {
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationDeleteManyReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationDeleteManyStruttureArgs = {
   where?: InputMaybe<StrutturaManyWhereInput>;
 };
 
 
-export type MutationDeleteManyStrutturasConnectionArgs = {
+export type MutationDeleteManyStruttureConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<StrutturaManyWhereInput>;
+};
+
+
+export type MutationDeleteReviewArgs = {
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -4182,13 +4274,13 @@ export type MutationPublishIsolaArgs = {
 };
 
 
-export type MutationPublishManyAlloggiosArgs = {
+export type MutationPublishManyAlloggiArgs = {
   to?: Array<Stage>;
   where?: InputMaybe<AlloggioManyWhereInput>;
 };
 
 
-export type MutationPublishManyAlloggiosConnectionArgs = {
+export type MutationPublishManyAlloggiConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4278,13 +4370,31 @@ export type MutationPublishManyIsoleConnectionArgs = {
 };
 
 
-export type MutationPublishManyStrutturasArgs = {
+export type MutationPublishManyReviewsArgs = {
+  to?: Array<Stage>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationPublishManyReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  from?: InputMaybe<Stage>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  to?: Array<Stage>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationPublishManyStruttureArgs = {
   to?: Array<Stage>;
   where?: InputMaybe<StrutturaManyWhereInput>;
 };
 
 
-export type MutationPublishManyStrutturasConnectionArgs = {
+export type MutationPublishManyStruttureConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4293,6 +4403,12 @@ export type MutationPublishManyStrutturasConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   to?: Array<Stage>;
   where?: InputMaybe<StrutturaManyWhereInput>;
+};
+
+
+export type MutationPublishReviewArgs = {
+  to?: Array<Stage>;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -4342,6 +4458,14 @@ export type MutationSchedulePublishIsolaArgs = {
   releaseId?: InputMaybe<Scalars['String']['input']>;
   to?: Array<Stage>;
   where: IsolaWhereUniqueInput;
+};
+
+
+export type MutationSchedulePublishReviewArgs = {
+  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
+  releaseId?: InputMaybe<Scalars['String']['input']>;
+  to?: Array<Stage>;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -4395,6 +4519,14 @@ export type MutationScheduleUnpublishIsolaArgs = {
 };
 
 
+export type MutationScheduleUnpublishReviewArgs = {
+  from?: Array<Stage>;
+  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
+  releaseId?: InputMaybe<Scalars['String']['input']>;
+  where: ReviewWhereUniqueInput;
+};
+
+
 export type MutationScheduleUnpublishStrutturaArgs = {
   from?: Array<Stage>;
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4435,13 +4567,13 @@ export type MutationUnpublishIsolaArgs = {
 };
 
 
-export type MutationUnpublishManyAlloggiosArgs = {
+export type MutationUnpublishManyAlloggiArgs = {
   from?: Array<Stage>;
   where?: InputMaybe<AlloggioManyWhereInput>;
 };
 
 
-export type MutationUnpublishManyAlloggiosConnectionArgs = {
+export type MutationUnpublishManyAlloggiConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4529,13 +4661,31 @@ export type MutationUnpublishManyIsoleConnectionArgs = {
 };
 
 
-export type MutationUnpublishManyStrutturasArgs = {
+export type MutationUnpublishManyReviewsArgs = {
+  from?: Array<Stage>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  from?: Array<Stage>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: InputMaybe<Stage>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyStruttureArgs = {
   from?: Array<Stage>;
   where?: InputMaybe<StrutturaManyWhereInput>;
 };
 
 
-export type MutationUnpublishManyStrutturasConnectionArgs = {
+export type MutationUnpublishManyStruttureConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -4544,6 +4694,12 @@ export type MutationUnpublishManyStrutturasConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   stage?: InputMaybe<Stage>;
   where?: InputMaybe<StrutturaManyWhereInput>;
+};
+
+
+export type MutationUnpublishReviewArgs = {
+  from?: Array<Stage>;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -4583,13 +4739,13 @@ export type MutationUpdateIsolaArgs = {
 };
 
 
-export type MutationUpdateManyAlloggiosArgs = {
+export type MutationUpdateManyAlloggiArgs = {
   data: AlloggioUpdateManyInput;
   where?: InputMaybe<AlloggioManyWhereInput>;
 };
 
 
-export type MutationUpdateManyAlloggiosConnectionArgs = {
+export type MutationUpdateManyAlloggiConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   data: AlloggioUpdateManyInput;
@@ -4668,13 +4824,30 @@ export type MutationUpdateManyIsoleConnectionArgs = {
 };
 
 
-export type MutationUpdateManyStrutturasArgs = {
+export type MutationUpdateManyReviewsArgs = {
+  data: ReviewUpdateManyInput;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationUpdateManyReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  data: ReviewUpdateManyInput;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ReviewManyWhereInput>;
+};
+
+
+export type MutationUpdateManyStruttureArgs = {
   data: StrutturaUpdateManyInput;
   where?: InputMaybe<StrutturaManyWhereInput>;
 };
 
 
-export type MutationUpdateManyStrutturasConnectionArgs = {
+export type MutationUpdateManyStruttureConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
   before?: InputMaybe<Scalars['ID']['input']>;
   data: StrutturaUpdateManyInput;
@@ -4682,6 +4855,12 @@ export type MutationUpdateManyStrutturasConnectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<StrutturaManyWhereInput>;
+};
+
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewUpdateInput;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -4727,6 +4906,12 @@ export type MutationUpsertIsolaArgs = {
 };
 
 
+export type MutationUpsertReviewArgs = {
+  upsert: ReviewUpsertInput;
+  where: ReviewWhereUniqueInput;
+};
+
+
 export type MutationUpsertStrutturaArgs = {
   upsert: StrutturaUpsertInput;
   where: StrutturaWhereUniqueInput;
@@ -4764,14 +4949,14 @@ export type PublishLocaleInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Retrieve multiple alloggi */
+  alloggi: Array<Alloggio>;
+  /** Retrieve multiple alloggi using the Relay connection interface */
+  alloggiConnection: AlloggioConnection;
   /** Retrieve a single alloggio */
   alloggio?: Maybe<Alloggio>;
   /** Retrieve document version */
   alloggioVersion?: Maybe<DocumentVersion>;
-  /** Retrieve multiple alloggios */
-  alloggios: Array<Alloggio>;
-  /** Retrieve multiple alloggios using the Relay connection interface */
-  alloggiosConnection: AlloggioConnection;
   /** Retrieve a single asset */
   asset?: Maybe<Asset>;
   /** Retrieve document version */
@@ -4808,6 +4993,14 @@ export type Query = {
   isoleConnection: IsolaConnection;
   /** Fetches an object given its ID */
   node?: Maybe<Node>;
+  /** Retrieve a single review */
+  review?: Maybe<Review>;
+  /** Retrieve document version */
+  reviewVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple reviews */
+  reviews: Array<Review>;
+  /** Retrieve multiple reviews using the Relay connection interface */
+  reviewsConnection: ReviewConnection;
   /** Retrieve a single scheduledOperation */
   scheduledOperation?: Maybe<ScheduledOperation>;
   /** Retrieve multiple scheduledOperations */
@@ -4824,16 +5017,42 @@ export type Query = {
   struttura?: Maybe<Struttura>;
   /** Retrieve document version */
   strutturaVersion?: Maybe<DocumentVersion>;
-  /** Retrieve multiple strutturas */
-  strutturas: Array<Struttura>;
-  /** Retrieve multiple strutturas using the Relay connection interface */
-  strutturasConnection: StrutturaConnection;
+  /** Retrieve multiple strutture */
+  strutture: Array<Struttura>;
+  /** Retrieve multiple strutture using the Relay connection interface */
+  struttureConnection: StrutturaConnection;
   /** Retrieve a single user */
   user?: Maybe<User>;
   /** Retrieve multiple users */
   users: Array<User>;
   /** Retrieve multiple users using the Relay connection interface */
   usersConnection: UserConnection;
+};
+
+
+export type QueryAlloggiArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<AlloggioOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<AlloggioWhereInput>;
+};
+
+
+export type QueryAlloggiConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<AlloggioOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<AlloggioWhereInput>;
 };
 
 
@@ -4846,32 +5065,6 @@ export type QueryAlloggioArgs = {
 
 export type QueryAlloggioVersionArgs = {
   where: VersionWhereInput;
-};
-
-
-export type QueryAlloggiosArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  locales?: Array<Locale>;
-  orderBy?: InputMaybe<AlloggioOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  stage?: Stage;
-  where?: InputMaybe<AlloggioWhereInput>;
-};
-
-
-export type QueryAlloggiosConnectionArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  locales?: Array<Locale>;
-  orderBy?: InputMaybe<AlloggioOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  stage?: Stage;
-  where?: InputMaybe<AlloggioWhereInput>;
 };
 
 
@@ -5040,6 +5233,44 @@ export type QueryNodeArgs = {
 };
 
 
+export type QueryReviewArgs = {
+  locales?: Array<Locale>;
+  stage?: Stage;
+  where: ReviewWhereUniqueInput;
+};
+
+
+export type QueryReviewVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QueryReviewsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<ReviewOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<ReviewWhereInput>;
+};
+
+
+export type QueryReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<ReviewOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<ReviewWhereInput>;
+};
+
+
 export type QueryScheduledOperationArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
@@ -5118,7 +5349,7 @@ export type QueryStrutturaVersionArgs = {
 };
 
 
-export type QueryStrutturasArgs = {
+export type QueryStruttureArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5131,7 +5362,7 @@ export type QueryStrutturasArgs = {
 };
 
 
-export type QueryStrutturasConnectionArgs = {
+export type QueryStruttureConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -5191,6 +5422,527 @@ export type RgbaInput = {
   b: Scalars['RGBAHue']['input'];
   g: Scalars['RGBAHue']['input'];
   r: Scalars['RGBAHue']['input'];
+};
+
+export type Review = Entity & Node & {
+  __typename?: 'Review';
+  alloggio?: Maybe<Alloggio>;
+  autore?: Maybe<Scalars['String']['output']>;
+  commento?: Maybe<Scalars['String']['output']>;
+  /** The time the document was created */
+  createdAt: Scalars['DateTime']['output'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  data?: Maybe<Scalars['Date']['output']>;
+  /** Get the document in other stages */
+  documentInStages: Array<Review>;
+  /** List of Review versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID']['output'];
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  scheduledIn: Array<ScheduledOperation>;
+  /** System stage field */
+  stage: Stage;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime']['output'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+};
+
+
+export type ReviewAlloggioArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type ReviewCreatedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type ReviewDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean']['input'];
+  inheritLocale?: Scalars['Boolean']['input'];
+  stages?: Array<Stage>;
+};
+
+
+export type ReviewHistoryArgs = {
+  limit?: Scalars['Int']['input'];
+  skip?: Scalars['Int']['input'];
+  stageOverride?: InputMaybe<Stage>;
+};
+
+
+export type ReviewPublishedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type ReviewScheduledInArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ScheduledOperationWhereInput>;
+};
+
+
+export type ReviewUpdatedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+export type ReviewConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: ReviewWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type ReviewConnection = {
+  __typename?: 'ReviewConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<ReviewEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type ReviewCreateInput = {
+  alloggio?: InputMaybe<AlloggioCreateOneInlineInput>;
+  autore?: InputMaybe<Scalars['String']['input']>;
+  commento?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  data?: InputMaybe<Scalars['Date']['input']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ReviewCreateManyInlineInput = {
+  /** Connect multiple existing Review documents */
+  connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  /** Create and connect multiple existing Review documents */
+  create?: InputMaybe<Array<ReviewCreateInput>>;
+};
+
+export type ReviewCreateOneInlineInput = {
+  /** Connect one existing Review document */
+  connect?: InputMaybe<ReviewWhereUniqueInput>;
+  /** Create and connect one Review document */
+  create?: InputMaybe<ReviewCreateInput>;
+};
+
+/** An edge in a connection. */
+export type ReviewEdge = {
+  __typename?: 'ReviewEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: Review;
+};
+
+/** Identifies documents */
+export type ReviewManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  alloggio?: InputMaybe<AlloggioWhereInput>;
+  autore?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  autore_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  autore_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  autore_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  autore_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  autore_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  autore_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  autore_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  autore_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  autore_starts_with?: InputMaybe<Scalars['String']['input']>;
+  commento?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  commento_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  commento_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  commento_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  commento_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  commento_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  commento_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  commento_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  commento_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  commento_starts_with?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  data?: InputMaybe<Scalars['Date']['input']>;
+  /** All values greater than the given value. */
+  data_gt?: InputMaybe<Scalars['Date']['input']>;
+  /** All values greater than or equal the given value. */
+  data_gte?: InputMaybe<Scalars['Date']['input']>;
+  /** All values that are contained in given list. */
+  data_in?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
+  /** All values less than the given value. */
+  data_lt?: InputMaybe<Scalars['Date']['input']>;
+  /** All values less than or equal the given value. */
+  data_lte?: InputMaybe<Scalars['Date']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  data_not?: InputMaybe<Scalars['Date']['input']>;
+  /** All values that are not contained in given list. */
+  data_not_in?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
+  documentInStages_every?: InputMaybe<ReviewWhereStageInput>;
+  documentInStages_none?: InputMaybe<ReviewWhereStageInput>;
+  documentInStages_some?: InputMaybe<ReviewWhereStageInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+export enum ReviewOrderByInput {
+  AutoreAsc = 'autore_ASC',
+  AutoreDesc = 'autore_DESC',
+  CommentoAsc = 'commento_ASC',
+  CommentoDesc = 'commento_DESC',
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  DataAsc = 'data_ASC',
+  DataDesc = 'data_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC'
+}
+
+export type ReviewUpdateInput = {
+  alloggio?: InputMaybe<AlloggioUpdateOneInlineInput>;
+  autore?: InputMaybe<Scalars['String']['input']>;
+  commento?: InputMaybe<Scalars['String']['input']>;
+  data?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type ReviewUpdateManyInlineInput = {
+  /** Connect multiple existing Review documents */
+  connect?: InputMaybe<Array<ReviewConnectInput>>;
+  /** Create and connect multiple Review documents */
+  create?: InputMaybe<Array<ReviewCreateInput>>;
+  /** Delete multiple Review documents */
+  delete?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  /** Disconnect multiple Review documents */
+  disconnect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing Review documents */
+  set?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  /** Update multiple Review documents */
+  update?: InputMaybe<Array<ReviewUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Review documents */
+  upsert?: InputMaybe<Array<ReviewUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type ReviewUpdateManyInput = {
+  autore?: InputMaybe<Scalars['String']['input']>;
+  commento?: InputMaybe<Scalars['String']['input']>;
+  data?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type ReviewUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: ReviewUpdateManyInput;
+  /** Document search */
+  where: ReviewWhereInput;
+};
+
+export type ReviewUpdateOneInlineInput = {
+  /** Connect existing Review document */
+  connect?: InputMaybe<ReviewWhereUniqueInput>;
+  /** Create and connect one Review document */
+  create?: InputMaybe<ReviewCreateInput>;
+  /** Delete currently connected Review document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Disconnect currently connected Review document */
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single Review document */
+  update?: InputMaybe<ReviewUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Review document */
+  upsert?: InputMaybe<ReviewUpsertWithNestedWhereUniqueInput>;
+};
+
+export type ReviewUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: ReviewUpdateInput;
+  /** Unique document search */
+  where: ReviewWhereUniqueInput;
+};
+
+export type ReviewUpsertInput = {
+  /** Create document if it didn't exist */
+  create: ReviewCreateInput;
+  /** Update document if it exists */
+  update: ReviewUpdateInput;
+};
+
+export type ReviewUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: ReviewUpsertInput;
+  /** Unique document search */
+  where: ReviewWhereUniqueInput;
+};
+
+/** This contains a set of filters that can be used to compare values internally */
+export type ReviewWhereComparatorInput = {
+  /** This field can be used to request to check if the entry is outdated by internal comparison */
+  outdated_to?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Identifies documents */
+export type ReviewWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ReviewWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  alloggio?: InputMaybe<AlloggioWhereInput>;
+  autore?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  autore_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  autore_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  autore_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  autore_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  autore_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  autore_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  autore_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  autore_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  autore_starts_with?: InputMaybe<Scalars['String']['input']>;
+  commento?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  commento_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  commento_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  commento_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  commento_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  commento_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  commento_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  commento_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  commento_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  commento_starts_with?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  data?: InputMaybe<Scalars['Date']['input']>;
+  /** All values greater than the given value. */
+  data_gt?: InputMaybe<Scalars['Date']['input']>;
+  /** All values greater than or equal the given value. */
+  data_gte?: InputMaybe<Scalars['Date']['input']>;
+  /** All values that are contained in given list. */
+  data_in?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
+  /** All values less than the given value. */
+  data_lt?: InputMaybe<Scalars['Date']['input']>;
+  /** All values less than or equal the given value. */
+  data_lte?: InputMaybe<Scalars['Date']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  data_not?: InputMaybe<Scalars['Date']['input']>;
+  /** All values that are not contained in given list. */
+  data_not_in?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
+  documentInStages_every?: InputMaybe<ReviewWhereStageInput>;
+  documentInStages_none?: InputMaybe<ReviewWhereStageInput>;
+  documentInStages_some?: InputMaybe<ReviewWhereStageInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+/** The document in stages filter allows specifying a stage entry to cross compare the same document between different stages */
+export type ReviewWhereStageInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<ReviewWhereStageInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<ReviewWhereStageInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<ReviewWhereStageInput>>;
+  /** This field contains fields which can be set as true or false to specify an internal comparison */
+  compareWithParent?: InputMaybe<ReviewWhereComparatorInput>;
+  /** Specify the stage to compare with */
+  stage?: InputMaybe<Stage>;
+};
+
+/** References Review record uniquely */
+export type ReviewWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 /** Custom type representing a rich text value comprising of raw rich text ast, html, markdown and text values */
@@ -5288,7 +6040,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Alloggio | Asset | FasciaStagionale | GruppoDiIsole | Isola | Struttura;
+export type ScheduledOperationAffectedDocument = Alloggio | Asset | FasciaStagionale | GruppoDiIsole | Isola | Review | Struttura;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -6231,7 +6983,7 @@ export enum Stage {
 
 export type Struttura = Entity & Node & {
   __typename?: 'Struttura';
-  alloggios: Array<Alloggio>;
+  alloggi: Array<Alloggio>;
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
   /** User that created this document */
@@ -6246,11 +6998,13 @@ export type Struttura = Entity & Node & {
   isola?: Maybe<Isola>;
   long_description?: Maybe<Scalars['String']['output']>;
   nome: Scalars['String']['output'];
+  promuoviSuHomePage?: Maybe<Scalars['Boolean']['output']>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
+  short_description?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
@@ -6261,7 +7015,7 @@ export type Struttura = Entity & Node & {
 };
 
 
-export type StrutturaAlloggiosArgs = {
+export type StrutturaAlloggiArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -6354,12 +7108,14 @@ export type StrutturaConnection = {
 };
 
 export type StrutturaCreateInput = {
-  alloggios?: InputMaybe<AlloggioCreateManyInlineInput>;
+  alloggi?: InputMaybe<AlloggioCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   foto?: InputMaybe<AssetCreateManyInlineInput>;
   isola?: InputMaybe<IsolaCreateOneInlineInput>;
   long_description?: InputMaybe<Scalars['String']['input']>;
   nome: Scalars['String']['input'];
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -6397,9 +7153,9 @@ export type StrutturaManyWhereInput = {
   OR?: InputMaybe<Array<StrutturaWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
-  alloggios_every?: InputMaybe<AlloggioWhereInput>;
-  alloggios_none?: InputMaybe<AlloggioWhereInput>;
-  alloggios_some?: InputMaybe<AlloggioWhereInput>;
+  alloggi_every?: InputMaybe<AlloggioWhereInput>;
+  alloggi_none?: InputMaybe<AlloggioWhereInput>;
+  alloggi_some?: InputMaybe<AlloggioWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6480,6 +7236,9 @@ export type StrutturaManyWhereInput = {
   nome_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   nome_starts_with?: InputMaybe<Scalars['String']['input']>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  promuoviSuHomePage_not?: InputMaybe<Scalars['Boolean']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6499,6 +7258,25 @@ export type StrutturaManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  short_description_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  short_description_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  short_description_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  short_description_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  short_description_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  short_description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  short_description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  short_description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  short_description_starts_with?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
   slug_contains?: InputMaybe<Scalars['String']['input']>;
@@ -6545,8 +7323,12 @@ export enum StrutturaOrderByInput {
   LongDescriptionDesc = 'long_description_DESC',
   NomeAsc = 'nome_ASC',
   NomeDesc = 'nome_DESC',
+  PromuoviSuHomePageAsc = 'promuoviSuHomePage_ASC',
+  PromuoviSuHomePageDesc = 'promuoviSuHomePage_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
+  ShortDescriptionAsc = 'short_description_ASC',
+  ShortDescriptionDesc = 'short_description_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -6554,11 +7336,13 @@ export enum StrutturaOrderByInput {
 }
 
 export type StrutturaUpdateInput = {
-  alloggios?: InputMaybe<AlloggioUpdateManyInlineInput>;
+  alloggi?: InputMaybe<AlloggioUpdateManyInlineInput>;
   foto?: InputMaybe<AssetUpdateManyInlineInput>;
   isola?: InputMaybe<IsolaUpdateOneInlineInput>;
   long_description?: InputMaybe<Scalars['String']['input']>;
   nome?: InputMaybe<Scalars['String']['input']>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -6581,6 +7365,8 @@ export type StrutturaUpdateManyInlineInput = {
 
 export type StrutturaUpdateManyInput = {
   long_description?: InputMaybe<Scalars['String']['input']>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StrutturaUpdateManyWithNestedWhereInput = {
@@ -6642,9 +7428,9 @@ export type StrutturaWhereInput = {
   OR?: InputMaybe<Array<StrutturaWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
-  alloggios_every?: InputMaybe<AlloggioWhereInput>;
-  alloggios_none?: InputMaybe<AlloggioWhereInput>;
-  alloggios_some?: InputMaybe<AlloggioWhereInput>;
+  alloggi_every?: InputMaybe<AlloggioWhereInput>;
+  alloggi_none?: InputMaybe<AlloggioWhereInput>;
+  alloggi_some?: InputMaybe<AlloggioWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6725,6 +7511,9 @@ export type StrutturaWhereInput = {
   nome_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   nome_starts_with?: InputMaybe<Scalars['String']['input']>;
+  promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  promuoviSuHomePage_not?: InputMaybe<Scalars['Boolean']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6744,6 +7533,25 @@ export type StrutturaWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  short_description?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  short_description_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  short_description_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  short_description_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  short_description_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  short_description_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  short_description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  short_description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  short_description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  short_description_starts_with?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
   slug_contains?: InputMaybe<Scalars['String']['input']>;

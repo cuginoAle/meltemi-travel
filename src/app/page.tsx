@@ -4,26 +4,18 @@ import { Intro } from './components/intro';
 import { MediaCarousel } from './components/mediaCarousel';
 import { Metadata } from 'next';
 import settings from 'content/settings.json';
-import home from 'content/homepage.json';
 import { Group } from './components/group';
 
 import { StrutturaCard } from './components/struttura/card';
-import { accomodationsFolderName } from './constants';
-import { getFolderEntries, readJsonFile } from './utils/fs';
-import { Grandstander } from 'next/font/google';
+
 import { fetchHpRecommendations } from './gql';
 
-const titleFont = Grandstander({
-  subsets: ['latin'],
-});
-
-const getRecos = async () => {
-  return await fetchHpRecommendations().then((data) => {
-    return data.map((struttura) => (
+const getRecos = () =>
+  fetchHpRecommendations().then((data) =>
+    data.map((struttura) => (
       <StrutturaCard key={struttura.nome} {...struttura} />
-    ));
-  });
-};
+    )),
+  );
 
 export const metadata: Metadata = {
   title: settings.title,

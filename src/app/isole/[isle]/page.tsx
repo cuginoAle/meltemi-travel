@@ -13,9 +13,7 @@ export default async function Isle({
 }: {
   params: { isle: string };
 }) {
-  console.log('isle', isle);
   const isleData = await fetchIsola(isle);
-  console.log('isleData', isleData);
 
   return (
     <main className="pb-8">
@@ -59,7 +57,6 @@ export default async function Isle({
       </div>
       <div className="max-w-screen-xl mx-auto">
         <div className="p-2 md:p-4 lg:p-8">
-          {/* strutture */}
           <Accomodations accomodations={isleData.strutture} />
         </div>
       </div>
@@ -71,8 +68,6 @@ export async function generateStaticParams() {
   const isleNames = await fetchAllIsles().then((isles) =>
     isles.map((isle) => isle.nome),
   );
-
-  console.log('isleNames', isleNames);
 
   return isleNames;
 }

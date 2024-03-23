@@ -5,15 +5,16 @@ import { useAcCarousel } from 'use-ac-carousel';
 import person from '@/assets/person.svg';
 import { marked } from 'marked';
 import { Struttura } from '@/app/gql';
-import { Fragment } from 'react';
 
 const StrutturaCard = ({
   nome,
   long_description,
+  short_description,
   isola,
   foto,
-  alloggios,
-}: Struttura) => {
+  alloggi,
+  useLongDescription = false,
+}: Struttura & { useLongDescription?: boolean }) => {
   const {
     scrollAreaRef,
 
@@ -37,42 +38,55 @@ const StrutturaCard = ({
             ...
           </div>
         )}
-        <h2 className="absolute top-0 font-light text2xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-br-lg text-white text-shadow-sm">
-          {isola?.nome}
-        </h2>
+        {isola && (
+          <h2 className="absolute top-0 font-light text2xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-br-lg text-white text-shadow-sm">
+            {isola?.nome}
+          </h2>
+        )}
       </div>
       <div className="p-4 flex flex-col gap-2">
         <h2 className="flex justify-between items-center">
           {nome}
           <span>
             da
-            <span className="font-bold ml-1">
-              €.
-              {alloggios.reduce((acc, curr) => {
-                const miPrice = Math.min(...curr.prezzi.map((p) => p.prezzo));
-                return miPrice < acc ? miPrice : acc;
-              }, Math.min(...alloggios[0].prezzi.map((p) => p.prezzo)))}
-            </span>
+            {alloggi.length > 1 ? (
+              <span className="font-bold ml-1">
+                €.
+                {alloggi.reduce((acc, curr) => {
+                  const miPrice = Math.min(...curr.prezzi.map((p) => p.prezzo));
+                  return miPrice < acc ? miPrice : acc;
+                }, Math.min(...alloggi[0].prezzi.map((p) => p.prezzo)))}
+              </span>
+            ) : (
+              <span className="p-4 text-red-600">XX</span>
+            )}
           </span>
         </h2>
-        <div className="flex justify-end">
-          <div className="flex gap-2 ">
-            {alloggios
-              .sort((a, b) => a.postiLetto - b.postiLetto)
-              .map((alloggio) => (
-                <div key={alloggio.id}>
-                  <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
-                    {alloggio.postiLetto} x{' '}
-                    <Image src={person} width={16} height={16} alt="" />{' '}
-                  </p>
-                </div>
-              ))}
+        {alloggi.length > 1 ? (
+          <div className="flex justify-end">
+            <div className="flex gap-2 ">
+              {alloggi
+                .sort((a, b) => a.postiLetto - b.postiLetto)
+                .map((alloggio) => (
+                  <div key={alloggio.id}>
+                    <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
+                      {alloggio.postiLetto} x{' '}
+                      <Image src={person} width={16} height={16} alt="" />{' '}
+                    </p>
+                  </div>
+                ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <span className="p-4 text-red-600">Non ci sono alloggi definiti</span>
+        )}
 
         <div
           dangerouslySetInnerHTML={{
-            __html: marked.parse(long_description || '', {}),
+            __html: marked.parse(
+              (useLongDescription ? long_description : short_description) || '',
+              {},
+            ),
           }}
         ></div>
       </div>

@@ -3,16 +3,16 @@ import { graphQLClient, gql } from './client';
 
 const query = gql`
   query hp_recommendations {
-    strutturas(where: { promuoviSuHomePage: true }) {
+    strutture(where: { promuoviSuHomePage: true }) {
       nome
       foto {
         url
       }
-      long_description
+      short_description
       isola {
         nome
       }
-      alloggios {
+      alloggi {
         postiLetto
         prezzi {
           ... on FasciaDiPrezzo {
@@ -27,6 +27,6 @@ const query = gql`
 const fetchHpRecommendations = () =>
   graphQLClient
     .request(query)
-    .then((data: any) => data.strutturas as Promise<Struttura[]>);
+    .then((data: any) => data.strutture as Promise<Struttura[]>);
 
 export { fetchHpRecommendations };

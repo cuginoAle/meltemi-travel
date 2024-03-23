@@ -10,7 +10,11 @@ const Accomodations = ({ accomodations }: AccomodationCardProps) => {
   return (
     <div className={styles.grid}>
       {accomodations.map((accomodation) => (
-        <StrutturaCard key={accomodation.nome} {...accomodation} />
+        <StrutturaCard
+          key={accomodation.nome}
+          {...accomodation}
+          useLongDescription
+        />
       ))}
     </div>
   );

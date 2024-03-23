@@ -23,7 +23,7 @@ const query = (nomeIsola?: string) => {
           foto {
             url
           }
-          alloggios {
+          alloggi {
             descrizione
             nome
             prezzi {
