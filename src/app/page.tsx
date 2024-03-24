@@ -9,6 +9,7 @@ import { Group } from '../components/group';
 import { StrutturaCard } from '../components/struttura/card';
 
 import { fetchHpRecommendations } from '../gql';
+import { Heading } from '@/components/heading';
 
 const getRecos = () =>
   fetchHpRecommendations().then((data) =>
@@ -44,11 +45,7 @@ export default async function Home() {
       </div>
 
       <div className="max-w-screen-xl mx-auto ">
-        <h3
-          className={` text-3xl md:text-5xl text-center mt-8 font-bold text-primary-500`}
-        >
-          Le nostre destinazioni
-        </h3>
+        <Heading className="text-center">Le nostre destinazioni</Heading>
       </div>
       <Group />
     </main>
