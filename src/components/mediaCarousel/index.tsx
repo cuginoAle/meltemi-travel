@@ -20,6 +20,7 @@ interface Props {
   autoPlay?: number;
   slideWidth?: number;
   slidesPerPage?: number;
+  extraPadding?: number;
 }
 
 const safariAgent =
@@ -34,11 +35,13 @@ const MediaCarousel = ({
   ariaLabel,
   autoPlay,
   slideWidth = 300,
+  extraPadding = 10,
 }: // slidesPerPage = 4,
 Props) => {
-  const [screenWidth, setScreenWidth] = useState(0);
-  const [leftTwilightAreaWidth, setLeftTwilightAreaWidth] = useState('0px');
-  const [rightTwilightAreaWidth, setRightTwilightAreaWidth] = useState('0px');
+  const [leftTwilightAreaWidth, setLeftTwilightAreaWidth] =
+    useState(extraPadding);
+  const [rightTwilightAreaWidth, setRightTwilightAreaWidth] =
+    useState(extraPadding);
   const maxViewportWidth = 1280; //slideWidth * slidesPerPage + 16 * slidesPerPage;
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -53,10 +56,10 @@ Props) => {
 
   const getTwilightAreaWidth = useCallback(
     (minWidth: number = 0) =>
-      `${Math.max(
+      Math.max(
         minWidth,
         (document.documentElement.clientWidth - maxViewportWidth) / 2,
-      )}px`,
+      ),
     [maxViewportWidth],
   );
 
@@ -72,10 +75,10 @@ Props) => {
   } = useAcCarousel({
     snapPosition: 'center',
     axis: 'x',
-    scrollPadding: `0 ${rightTwilightAreaWidth} 0 ${leftTwilightAreaWidth}`,
+    scrollPadding: `0 ${rightTwilightAreaWidth}px 0 ${leftTwilightAreaWidth}px`,
     rootMargin: safariAgent
       ? undefined
-      : `0px -${rightTwilightAreaWidth} 0px -${leftTwilightAreaWidth}`, // Comment this line out in Safari or iOS
+      : `0px -${rightTwilightAreaWidth}px 0px -${leftTwilightAreaWidth}px`, // Comment this line out in Safari or iOS
     // webkit bug: https://bugs.webkit.org/show_bug.cgi?id=263316
     // https://github.com/w3c/IntersectionObserver/issues/504
     // https://stackoverflow.com/questions/71283704/intersection-observer-padding-changes-boundaries-of-root-element
@@ -88,9 +91,6 @@ Props) => {
   }, [isLastPage, scrollNextPage, scrollToIndex]);
 
   useLayoutEffect(() => {
-    setLeftTwilightAreaWidth(getTwilightAreaWidth());
-    setRightTwilightAreaWidth(getTwilightAreaWidth(slideWidth));
-
     const handleResize = () => {
       // get the screen width
       const screenWidth = document.documentElement.clientWidth;
@@ -100,7 +100,6 @@ Props) => {
 
       setRightTwilightAreaWidth(getTwilightAreaWidth(showNavButtons ? 60 : 10));
       setLeftTwilightAreaWidth(getTwilightAreaWidth(10));
-      setScreenWidth(screenWidth);
     };
 
     window.addEventListener('resize', handleResize);
@@ -114,7 +113,8 @@ Props) => {
   }, [getTwilightAreaWidth, slideWidth, items.length, visibleIndexes.length]);
 
   const showNavButtons =
-    screenWidth > 768 && items.length > visibleIndexes.length;
+    document.documentElement.clientWidth > 768 &&
+    items.length > visibleIndexes.length;
 
   return (
     <div
@@ -137,7 +137,9 @@ Props) => {
             className={style.scrollArea}
             style={{
               ...scrollAreaStyle,
-              padding: `8px ${rightTwilightAreaWidth} 8px ${leftTwilightAreaWidth}`,
+              padding: `8px ${rightTwilightAreaWidth + extraPadding}px 8px ${
+                leftTwilightAreaWidth + extraPadding
+              }px`,
             }}
           >
             {items.map((item, index) => (

@@ -1,14 +1,14 @@
-import { Hero } from './components/hero';
-import { Hr } from './components/hr';
-import { Intro } from './components/intro';
-import { MediaCarousel } from './components/mediaCarousel';
+import { HomeHero } from '../components/homeHero';
+import { Hr } from '../components/hr';
+import { Intro } from '../components/intro';
+import { MediaCarousel } from '../components/mediaCarousel';
 import { Metadata } from 'next';
 import settings from 'content/settings.json';
-import { Group } from './components/group';
+import { Group } from '../components/group';
 
-import { StrutturaCard } from './components/struttura/card';
+import { StrutturaCard } from '../components/struttura/card';
 
-import { fetchHpRecommendations } from './gql';
+import { fetchHpRecommendations } from '../gql';
 
 const getRecos = () =>
   fetchHpRecommendations().then((data) =>
@@ -29,7 +29,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Hero />
+      <HomeHero />
       <MediaCarousel
         title="Ultime proposte:"
         slideWidth={slideWidth}

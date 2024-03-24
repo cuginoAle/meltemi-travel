@@ -1,9 +1,8 @@
 'use client';
-import { Isola } from '@/app/gql';
+import { Isola } from '@/gql';
 import carouselStyle from '../mediaCarousel/style.module.css';
-import { islesFolderName } from '@/app/constants';
 
-import { hygraphLoader } from '@/app/utils/imageLoader';
+import { hygraphLoader } from '@/utils/imageLoader';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,7 +13,7 @@ interface CardProps extends Isola {
 const Card = ({ cardWidth, ...isola }: CardProps) => {
   return (
     <Link
-      href={`${islesFolderName}/${isola.nome}`}
+      href={`isole/${isola.nome}`}
       className={`${carouselStyle.slideAnchor} shadow-md border-4 border-white`}
     >
       <Image

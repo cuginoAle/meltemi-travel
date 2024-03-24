@@ -1,5 +1,5 @@
 import { MediaCarousel } from '../mediaCarousel';
-import { fetchAllGroups } from '@/app/gql/allGroups';
+import { fetchAllGroups } from '@/gql/allGroups';
 
 import { Card } from './card';
 

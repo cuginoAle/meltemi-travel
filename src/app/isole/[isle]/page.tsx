@@ -1,12 +1,8 @@
-import logo from '@/assets/logo.webp';
-import setting from 'content/settings.json';
-import Image from 'next/image';
-import { Hr } from '@/app/components/hr';
-import Link from 'next/link';
+import { Hr } from '@/components/hr';
 import { Accomodations } from './components/accomodations';
 
+import { fetchAllIsles, fetchIsola } from '@/gql';
 import { IsleHero } from './components/isleHero';
-import { fetchAllIsles, fetchIsola } from '@/app/gql';
 
 export default async function Isle({
   params: { isle },
@@ -16,20 +12,8 @@ export default async function Isle({
   const isleData = await fetchIsola(isle);
 
   return (
-    <main className="pb-8">
+    <>
       <div className="max-w-screen-xl mx-auto bg-white">
-        <Link href="/" className=" gap-3 lg:gap-4 items-center p-2 inline-flex">
-          <Image
-            src={logo}
-            className="w-8 shadow-logo_small rounded-full"
-            alt="Meltemi travel"
-            sizes="32px"
-          />
-          <h1 className={`text-primary-500 text-2xl font-bold`}>
-            {setting.title}
-          </h1>
-        </Link>
-
         <IsleHero isleData={isleData} />
       </div>
 
@@ -60,7 +44,7 @@ export default async function Isle({
           <Accomodations accomodations={isleData.strutture} />
         </div>
       </div>
-    </main>
+    </>
   );
 }
 

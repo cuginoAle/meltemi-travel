@@ -1,6 +1,6 @@
 'use client';
-import { Isola } from '@/app/gql';
-import { imageLoader } from '@/app/utils/imageLoader';
+import { Isola } from '@/gql';
+import { imageLoader } from '@/utils/imageLoader';
 import Image from 'next/image';
 
 const IsleHero = ({ isleData }: { isleData: Isola }) => {

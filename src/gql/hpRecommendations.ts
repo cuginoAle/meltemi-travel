@@ -5,6 +5,7 @@ const query = gql`
   query hp_recommendations {
     strutture(where: { promuoviSuHomePage: true }) {
       nome
+      slug
       foto {
         url
       }
@@ -14,6 +15,7 @@ const query = gql`
       }
       alloggi {
         postiLetto
+        id
         prezzi {
           ... on FasciaDiPrezzo {
             prezzo

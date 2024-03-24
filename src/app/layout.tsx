@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Kumbh_Sans } from 'next/font/google';
 import './globals.css';
-
+import logo from '@/assets/logo.webp';
+import setting from 'content/settings.json';
 import Script from 'next/script';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const mainFont = Kumbh_Sans({
   variable: '--font-kumbh-sans',
@@ -26,6 +29,7 @@ export default function RootLayout({
         strategy="lazyOnload"
       />
       <body className={`${mainFont.className}`}>
+        <div className="max-w-screen-xl w-full left-1/2 -translate-x-1/2 z-50 pointer-events-none fixed top-0 h-svh shadow-lg" />
         {children}
         <footer>
           <div className="max-w-screen-xl bg-white m-auto p-4 lg:p-8">

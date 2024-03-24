@@ -4,10 +4,12 @@ import Image from 'next/image';
 import { useAcCarousel } from 'use-ac-carousel';
 import person from '@/assets/person.svg';
 import { marked } from 'marked';
-import { Struttura } from '@/app/gql';
+import { Struttura } from '@/gql';
+import Link from 'next/link';
 
 const StrutturaCard = ({
   nome,
+  slug,
   long_description,
   short_description,
   isola,
@@ -25,7 +27,7 @@ const StrutturaCard = ({
   });
   return (
     <div className="flex flex-col rounded-md overflow-hidden bg-white shadow-md h-full">
-      <div className="relative">
+      <Link href={`/struttura/${slug}`} className="relative">
         <div ref={scrollAreaRef} className="flex gap-4" style={scrollAreaStyle}>
           {foto.map(({ url }) => (
             <div key={url} className="relative aspect-[4/3] w-full shrink-0">
@@ -43,7 +45,7 @@ const StrutturaCard = ({
             {isola?.nome}
           </h2>
         )}
-      </div>
+      </Link>
       <div className="p-4 flex flex-col gap-2">
         <h2 className="flex justify-between items-center">
           {nome}
@@ -64,17 +66,19 @@ const StrutturaCard = ({
         </h2>
         {alloggi.length > 1 ? (
           <div className="flex justify-end">
-            <div className="flex gap-2 ">
+            <div className="flex gap-2 flex-wrap justify-end">
               {alloggi
                 .sort((a, b) => a.postiLetto - b.postiLetto)
-                .map((alloggio) => (
-                  <div key={alloggio.id}>
-                    <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
-                      {alloggio.postiLetto} x{' '}
-                      <Image src={person} width={16} height={16} alt="" />{' '}
-                    </p>
-                  </div>
-                ))}
+                .map((alloggio) => {
+                  return (
+                    <div key={alloggio.id}>
+                      <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
+                        {alloggio.postiLetto} x{' '}
+                        <Image src={person} width={16} height={16} alt="" />{' '}
+                      </p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         ) : (
@@ -82,6 +86,7 @@ const StrutturaCard = ({
         )}
 
         <div
+          className="line-clamp-[8]"
           dangerouslySetInnerHTML={{
             __html: marked.parse(
               (useLongDescription ? long_description : short_description) || '',

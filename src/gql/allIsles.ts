@@ -26,6 +26,7 @@ const query = (nomeIsola?: string) => {
           alloggi {
             descrizione
             nome
+            id
             prezzi {
               ... on FasciaDiPrezzo {
                 prezzo

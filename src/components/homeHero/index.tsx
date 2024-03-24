@@ -4,7 +4,7 @@ import logo from '@/assets/logo.webp';
 import hero from '@/assets/hero.webp';
 import data from 'content/settings.json';
 
-const Hero = () => {
+const HomeHero = () => {
   return (
     <div className="relative flex justify-center items-center max-w-screen-xl mx-auto ">
       <div className={styles.imageWrapper}>
@@ -33,4 +33,4 @@ const Hero = () => {
   );
 };
 
-export { Hero };
+export { HomeHero };
