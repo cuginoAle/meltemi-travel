@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useAcCarousel } from 'use-ac-carousel';
-import person from '@/assets/person.svg';
+// import Person from '@/assets/person.svg';
 import { marked } from 'marked';
 import { Struttura } from '@/gql';
 import Link from 'next/link';
@@ -73,8 +73,7 @@ const StrutturaCard = ({
                   return (
                     <div key={alloggio.id}>
                       <p className="flex gap-1 text-sm py-1 px-2 bg-primary-900 rounded">
-                        {alloggio.postiLetto} x{' '}
-                        <Image src={person} width={16} height={16} alt="" />{' '}
+                        {alloggio.postiLetto} x
                       </p>
                     </div>
                   );

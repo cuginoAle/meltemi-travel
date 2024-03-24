@@ -26,3 +26,10 @@ body {
     text-shadow: 0 3px 10px rgb(0, 0, 0);
   }
 }
+
+.list {
+  li {
+    list-style: circle;
+    list-style-position: inside;
+  }
+}

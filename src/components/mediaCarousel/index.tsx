@@ -44,6 +44,7 @@ Props) => {
     useState(extraPadding);
   const maxViewportWidth = 1280; //slideWidth * slidesPerPage + 16 * slidesPerPage;
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const [showNavButtons, setShowNavButtons] = useState(false);
 
   const [isHovering, setIsHovering] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -95,10 +96,14 @@ Props) => {
       // get the screen width
       const screenWidth = document.documentElement.clientWidth;
 
-      const showNavButtons =
+      const shouldShowNavButtons =
         screenWidth > 768 && items.length > visibleIndexes.length;
 
-      setRightTwilightAreaWidth(getTwilightAreaWidth(showNavButtons ? 60 : 10));
+      setShowNavButtons(shouldShowNavButtons);
+
+      setRightTwilightAreaWidth(
+        getTwilightAreaWidth(shouldShowNavButtons ? 60 : 10),
+      );
       setLeftTwilightAreaWidth(getTwilightAreaWidth(10));
     };
 
@@ -111,10 +116,6 @@ Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [getTwilightAreaWidth, slideWidth, items.length, visibleIndexes.length]);
-
-  const showNavButtons =
-    document.documentElement.clientWidth > 768 &&
-    items.length > visibleIndexes.length;
 
   return (
     <div

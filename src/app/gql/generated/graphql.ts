@@ -6981,6 +6981,7 @@ export enum Stage {
 export type Struttura = Entity & Node & {
   __typename?: 'Struttura';
   alloggi: Array<Alloggio>;
+  condizioniDiAffitto?: Maybe<Scalars['String']['output']>;
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
   /** User that created this document */
@@ -7106,6 +7107,7 @@ export type StrutturaConnection = {
 
 export type StrutturaCreateInput = {
   alloggi?: InputMaybe<AlloggioCreateManyInlineInput>;
+  condizioniDiAffitto?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   foto?: InputMaybe<AssetCreateManyInlineInput>;
   isola?: InputMaybe<IsolaCreateOneInlineInput>;
@@ -7153,6 +7155,25 @@ export type StrutturaManyWhereInput = {
   alloggi_every?: InputMaybe<AlloggioWhereInput>;
   alloggi_none?: InputMaybe<AlloggioWhereInput>;
   alloggi_some?: InputMaybe<AlloggioWhereInput>;
+  condizioniDiAffitto?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  condizioniDiAffitto_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  condizioniDiAffitto_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  condizioniDiAffitto_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  condizioniDiAffitto_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  condizioniDiAffitto_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  condizioniDiAffitto_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  condizioniDiAffitto_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  condizioniDiAffitto_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  condizioniDiAffitto_starts_with?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -7312,6 +7333,8 @@ export type StrutturaManyWhereInput = {
 };
 
 export enum StrutturaOrderByInput {
+  CondizioniDiAffittoAsc = 'condizioniDiAffitto_ASC',
+  CondizioniDiAffittoDesc = 'condizioniDiAffitto_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
@@ -7334,6 +7357,7 @@ export enum StrutturaOrderByInput {
 
 export type StrutturaUpdateInput = {
   alloggi?: InputMaybe<AlloggioUpdateManyInlineInput>;
+  condizioniDiAffitto?: InputMaybe<Scalars['String']['input']>;
   foto?: InputMaybe<AssetUpdateManyInlineInput>;
   isola?: InputMaybe<IsolaUpdateOneInlineInput>;
   long_description?: InputMaybe<Scalars['String']['input']>;
@@ -7361,6 +7385,7 @@ export type StrutturaUpdateManyInlineInput = {
 };
 
 export type StrutturaUpdateManyInput = {
+  condizioniDiAffitto?: InputMaybe<Scalars['String']['input']>;
   long_description?: InputMaybe<Scalars['String']['input']>;
   promuoviSuHomePage?: InputMaybe<Scalars['Boolean']['input']>;
   short_description?: InputMaybe<Scalars['String']['input']>;
@@ -7428,6 +7453,25 @@ export type StrutturaWhereInput = {
   alloggi_every?: InputMaybe<AlloggioWhereInput>;
   alloggi_none?: InputMaybe<AlloggioWhereInput>;
   alloggi_some?: InputMaybe<AlloggioWhereInput>;
+  condizioniDiAffitto?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  condizioniDiAffitto_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  condizioniDiAffitto_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  condizioniDiAffitto_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  condizioniDiAffitto_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  condizioniDiAffitto_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  condizioniDiAffitto_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  condizioniDiAffitto_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  condizioniDiAffitto_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  condizioniDiAffitto_starts_with?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;

@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
 import { Kumbh_Sans } from 'next/font/google';
 import './globals.css';
-import logo from '@/assets/logo.webp';
-import setting from 'content/settings.json';
+
 import Script from 'next/script';
-import Link from 'next/link';
-import Image from 'next/image';
 
 const mainFont = Kumbh_Sans({
   variable: '--font-kumbh-sans',

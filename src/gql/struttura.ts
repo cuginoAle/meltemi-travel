@@ -21,6 +21,9 @@ const queryStruttura = (slug?: string) => {
           prezzi {
             ... on FasciaDiPrezzo {
               prezzo
+              fascia {
+                nome
+              }
             }
           }
           descrizione
@@ -32,6 +35,7 @@ const queryStruttura = (slug?: string) => {
           nome
         }
         nome
+        condizioniDiAffitto
         foto {
           url
         }
