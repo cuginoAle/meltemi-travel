@@ -33,3 +33,8 @@ body {
     list-style-position: inside;
   }
 }
+
+svg {
+  fill: currentColor;
+  height: 1em;
+}
