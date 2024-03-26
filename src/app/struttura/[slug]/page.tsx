@@ -6,7 +6,7 @@ import { marked } from 'marked';
 import Image from 'next/image';
 import Person from '@/assets/person.svg';
 import MessageIcon from '@/assets/message.svg';
-import BG from '@/assets/greek_bg.webp';
+import BG from '@/assets/windmill.webp';
 import { TileGrid } from '@/components/tileGrid';
 
 const Struttura = async ({
@@ -49,13 +49,13 @@ const Struttura = async ({
       ></div>
       <Hr className="max-w-screen-xl mx-auto" />
 
-      <div className="relative">
+      <div className="relative max-w-screen-xl mx-auto pb-44">
         <Image
           alt=""
           src={BG}
-          width={1000}
-          height={599}
-          className="absolute bottom-0 right-0"
+          width={600 / 2}
+          height={885 / 2}
+          className="absolute bottom-0 right-0 mix-blend-multiply sepia-20 opacity-60"
         />
         <div className="relative">
           <div className="max-w-screen-xl mx-auto px-2 md:px-6 flex flex-col">

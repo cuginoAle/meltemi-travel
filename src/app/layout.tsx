@@ -26,7 +26,7 @@ export default function RootLayout({
         strategy="lazyOnload"
       />
       <body className={`${mainFont.className}`}>
-        <div className="max-w-screen-xl w-full left-1/2 -translate-x-1/2 z-50 pointer-events-none fixed top-0 h-svh shadow-lg" />
+        <div className="max-w-screen-xl w-full left-1/2 -translate-x-1/2 z-50 pointer-events-none fixed top-0 h-svh shadow-2xl" />
         {children}
         <footer>
           <div className="max-w-screen-xl bg-white m-auto p-4 lg:p-8">

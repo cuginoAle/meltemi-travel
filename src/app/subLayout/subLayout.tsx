@@ -9,7 +9,7 @@ interface SubLayoutProps {
 }
 const SubLayout = ({ children }: SubLayoutProps) => {
   return (
-    <main className="pb-8">
+    <main>
       <div className=" bg-primary-900 border-b border-primary-800">
         <div className="max-w-screen-xl mx-auto">
           <Link
