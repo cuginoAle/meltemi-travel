@@ -1,71 +1,32 @@
-import { Accommodation, Isle as IsleType } from '@/app/types';
-import { accomodationsFolderName, islesFolderName } from '../../constants';
-import { getFolderEntries, readJsonFile } from '../../utils/fs';
-
-import logo from '@/assets/logo.webp';
-import setting from 'content/settings.json';
-import Image from 'next/image';
-import { Hr } from '@/app/components/hr';
-import Link from 'next/link';
-
+import { Hr } from '@/components/hr';
 import { Accomodations } from './components/accomodations';
-import { marked } from 'marked';
 
-export default function Isle({
+import { fetchAllIsles, fetchIsola } from '@/gql';
+import { IsleHero } from './components/isleHero';
+
+export default async function Isle({
   params: { isle },
 }: {
   params: { isle: string };
 }) {
-  const isleData: IsleType = readJsonFile(islesFolderName, isle + '.json');
-  const accomodations: Accommodation[] = getFolderEntries(
-    accomodationsFolderName,
-  )
-    .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
-    .filter((accomodation) => accomodation.isola.includes(isleData.nome));
+  const isleData = await fetchIsola(isle);
 
   return (
-    <main className="pb-8">
+    <>
       <div className="max-w-screen-xl mx-auto bg-white">
-        <Link href="/" className=" gap-3 lg:gap-4 items-center p-2 inline-flex">
-          <Image
-            src={logo}
-            className="w-8 shadow-logo_small rounded-full"
-            alt="Meltemi travel"
-            sizes="32px"
-          />
-          <h1 className={`text-primary-500 text-2xl font-bold`}>
-            {setting.title}
-          </h1>
-        </Link>
-
-        <div className="relative aspect-[2/1]">
-          <Image
-            sizes="(min-width:1280px) 100vw, 1280px"
-            fill
-            src={isleData.foto[0].url}
-            alt=""
-          />
-
-          <h1 className="absolute bottom-0 font-light text-3xl lg:text-5xl p-1 px-3 bg-primary-400 bg-opacity-50 backdrop-blur-sm rounded-tr-2xl lg:rounded-tr-4xl text-white text-shadow-sm">
-            {isleData.nome}
-          </h1>
-        </div>
+        <IsleHero isleData={isleData} />
       </div>
 
       <div className="max-w-screen-xl mx-auto bg-white">
         <Hr />
         <div className="p-3 flex flex-col items-center sm:flex-row gap-4 text-primary-500">
-          <div className="flex-grow py-5 md:p-6 lg:p-20 text-2xl">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: marked.parse(isleData.long_description),
-              }}
-            />
+          <div className="flex-grow py-5 md:p-6 lg:p-20 text-2xl basis-1/2 shrink-0">
+            <p>{isleData.short_descrizione}</p>
           </div>
-          {isleData.mappa && (
+          {isleData.coordinate && (
             <iframe
               className="rounded-lg shadow-md overflow-hidden"
-              src={isleData.mappa}
+              src={`https://www.google.com/maps/embed/v1/place?q=${isleData.coordinate.latitude},${isleData.coordinate.longitude}&zoom=8&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8`}
               width="100%"
               height="200"
               style={{ border: 0 }}
@@ -80,15 +41,17 @@ export default function Isle({
       </div>
       <div className="max-w-screen-xl mx-auto">
         <div className="p-2 md:p-4 lg:p-8">
-          <Accomodations accomodations={accomodations} />
+          <Accomodations accomodations={isleData.strutture} />
         </div>
       </div>
-    </main>
+    </>
   );
 }
 
 export async function generateStaticParams() {
-  const isleFileNames = getFolderEntries(islesFolderName);
+  const isleNames = await fetchAllIsles().then((isles) =>
+    isles.map((isle) => isle.nome),
+  );
 
-  return isleFileNames.map((fileName) => fileName.replace('.json', ''));
+  return isleNames;
 }

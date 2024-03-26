@@ -1,15 +1,20 @@
-import { AccomodationCard } from '@/app/components/accomodation/card';
-import { Accommodation } from '@/app/types';
+import { StrutturaCard } from '@/components/struttura/card';
+
 import styles from './styles.module.css';
+import { Struttura } from '@/gql';
 interface AccomodationCardProps {
-  accomodations: Accommodation[];
+  accomodations: Struttura[];
 }
 
 const Accomodations = ({ accomodations }: AccomodationCardProps) => {
   return (
     <div className={styles.grid}>
       {accomodations.map((accomodation) => (
-        <AccomodationCard key={accomodation.nome} {...accomodation} />
+        <StrutturaCard
+          key={accomodation.nome}
+          {...accomodation}
+          useLongDescription
+        />
       ))}
     </div>
   );

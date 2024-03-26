@@ -1,29 +1,22 @@
-import { Hero } from './components/hero';
-import { Hr } from './components/hr';
-import { Intro } from './components/intro';
-import { MediaCarousel } from './components/mediaCarousel';
+import { HomeHero } from '../components/homeHero';
+import { Hr } from '../components/hr';
+import { Intro } from '../components/intro';
+import { MediaCarousel } from '../components/mediaCarousel';
 import { Metadata } from 'next';
 import settings from 'content/settings.json';
-import home from 'content/homepage.json';
-import { Group } from './components/group';
+import { Group } from '../components/group';
 
-import { AccomodationCard } from './components/accomodation/card';
-import { accomodationsFolderName } from './constants';
-import { getFolderEntries, readJsonFile } from './utils/fs';
-import { Grandstander } from 'next/font/google';
+import { StrutturaCard } from '../components/struttura/card';
 
-const titleFont = Grandstander({
-  subsets: ['latin'],
-});
+import { fetchHpRecommendations } from '../gql';
+import { Heading } from '@/components/heading';
 
-const getItems = () => {
-  return getFolderEntries(accomodationsFolderName)
-    .map((fileName) => readJsonFile(accomodationsFolderName, fileName))
-    .filter((accomodation) => home.in_evidenza.includes(accomodation.nome))
-    .map((accomodation) => (
-      <AccomodationCard key={accomodation.nome} {...accomodation} />
-    ));
-};
+const getRecos = () =>
+  fetchHpRecommendations().then((data) =>
+    data.map((struttura) => (
+      <StrutturaCard key={struttura.nome} {...struttura} />
+    )),
+  );
 
 export const metadata: Metadata = {
   title: settings.title,
@@ -32,14 +25,16 @@ export const metadata: Metadata = {
 
 const slideWidth = 1280 / 5 - 16;
 
-export default function Home() {
+export default async function Home() {
+  const recos = await getRecos();
+
   return (
     <main>
-      <Hero />
+      <HomeHero />
       <MediaCarousel
         title="Ultime proposte:"
         slideWidth={slideWidth}
-        items={getItems()}
+        items={recos}
       />
       <div className="max-w-screen-xl mx-auto bg-white">
         <Hr />
@@ -50,11 +45,7 @@ export default function Home() {
       </div>
 
       <div className="max-w-screen-xl mx-auto ">
-        <h3
-          className={` text-3xl md:text-5xl text-center mt-8 font-bold text-primary-500`}
-        >
-          Le nostre destinazioni
-        </h3>
+        <Heading className="text-center">Le nostre destinazioni</Heading>
       </div>
       <Group />
     </main>

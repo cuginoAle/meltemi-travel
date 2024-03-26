@@ -87,11 +87,11 @@
   transition: all 0.5s;
   transform-origin: center;
   opacity: 0.6;
-  transform: scale(0.9);
+  transform: scaleY(0.94);
 }
 .liInnerWrapper.visible {
   opacity: 1;
-  transform: scale(1);
+  transform: scaleY(1);
 }
 
 .slideAnchor {
@@ -100,10 +100,11 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 10px;
   position: relative;
   outline: none;
   background-color: white;
+  aspect-ratio: 1.4;
 }
 .slideTitle {
   /* font-weight: lighter; */
@@ -127,30 +128,12 @@
   gap: 8px;
 }
 
-/* .slideCount {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 8px;
-  left: 8px;
-  font-size: 24px;
-  font-weight: bold;
-  color: red;
-  background-color: white;
-  opacity: 0.75;
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-} */
-
 .carouselTitle {
   font-size: 24px;
-  /* font-weight: lighter; */
-  @apply text-primary-500;
+
+  @apply text-primary-500 pl-6;
   margin: 0 auto;
   position: relative;
   z-index: 11;
   max-width: calc(var(--maxViewportWidth) + 24px);
-  padding-left: 24px;
 }
