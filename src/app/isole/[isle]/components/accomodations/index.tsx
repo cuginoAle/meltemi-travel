@@ -1,7 +1,8 @@
 import { StrutturaCard } from '@/components/struttura/card';
 
 import styles from './styles.module.css';
-import { Struttura } from '@/gql';
+import { Struttura } from '@/app/gql/generated/graphql';
+
 interface AccomodationCardProps {
   accomodations: Struttura[];
 }

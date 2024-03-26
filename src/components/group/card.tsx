@@ -1,5 +1,5 @@
 'use client';
-import { Isola } from '@/gql';
+import { Isola } from '@/app/gql/generated/graphql';
 import carouselStyle from '../mediaCarousel/style.module.css';
 
 import { hygraphLoader } from '@/utils/imageLoader';

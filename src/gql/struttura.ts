@@ -1,4 +1,4 @@
-import { Struttura } from '.';
+import { Struttura } from '@/app/gql/generated/graphql';
 import { graphQLClient, gql } from './client';
 
 const strutturaSlugs = gql`
@@ -9,47 +9,47 @@ const strutturaSlugs = gql`
   }
 `;
 
-const queryStruttura = (slug?: string) => {
-  const where = slug ? `(where: {slug: "${slug}"})` : '';
+// const queryStruttura = (slug?: string) => {
+//   const where = slug ? `(where: {slug: "${slug}"})` : '';
 
-  return gql`
-    query struttura {
-      struttura ${where} {
-        alloggi {
-          id
-          postiLetto
-          prezzi {
-            ... on FasciaDiPrezzo {
-              prezzo
-              fascia {
-                nome
-              }
+const queryStruttura = gql`
+  query struttura($slug: String!) {
+    struttura(where: { slug: $slug }) {
+      alloggi {
+        id
+        postiLetto
+        prezzi {
+          ... on FasciaDiPrezzo {
+            prezzo
+            fascia {
+              nome
             }
           }
-          descrizione
-          review {
-            autore
-            commento
-            data
-          }
-          nome
+        }
+        descrizione
+        review {
+          autore
+          commento
+          data
         }
         nome
-        condizioniDiAffitto
-        foto {
-          url
-        }
-        long_description
-        isola {
-          nome
-        }
-      }      
+      }
+      nome
+      condizioniDiAffitto
+      foto {
+        url
+      }
+      long_description
+      isola {
+        nome
+      }
     }
-  `;
-};
+  }
+`;
+
 const fetchStruttura = (slug?: string) =>
   graphQLClient
-    .request(queryStruttura(slug))
+    .request(queryStruttura, { slug })
     .then((data: any) => data.struttura as Struttura);
 
 const fetchStrutturaSlugs = () =>

@@ -1,4 +1,4 @@
-import { GruppoDiIsole } from '.';
+import { GruppoDiIsole } from '@/app/gql/generated/graphql';
 import { graphQLClient, gql } from './client';
 
 const query = gql`
@@ -30,4 +30,4 @@ const fetchAllGroups = () =>
     .request(query)
     .then((data: any) => data.gruppiDiIsole as Promise<GruppoDiIsole[]>);
 
-export { fetchAllGroups };
+export { query, fetchAllGroups };

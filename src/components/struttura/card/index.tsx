@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { useAcCarousel } from 'use-ac-carousel';
-// import Person from '@/assets/person.svg';
 import { marked } from 'marked';
-import { Struttura } from '@/gql';
+
 import Link from 'next/link';
+import { Struttura } from '@/app/gql/generated/graphql';
 
 const StrutturaCard = ({
   nome,

@@ -1,5 +1,5 @@
 'use client';
-import { Isola } from '@/gql';
+import { Isola } from '@/app/gql/generated/graphql';
 import { imageLoader } from '@/utils/imageLoader';
 import Image from 'next/image';
 

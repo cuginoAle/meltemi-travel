@@ -1,4 +1,4 @@
-import { Struttura } from '.';
+import { Struttura } from '@/app/gql/generated/graphql';
 import { graphQLClient, gql } from './client';
 
 const query = gql`
