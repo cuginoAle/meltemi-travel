@@ -48,7 +48,7 @@ export type Alloggio = Entity & Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID']['output'];
-  nome?: Maybe<Scalars['String']['output']>;
+  nome: Scalars['String']['output'];
   postiLetto: Scalars['Int']['output'];
   prezzi: Array<AlloggioprezziUnion>;
   /** The time the document was published. Null on documents in draft stage. */
@@ -174,7 +174,7 @@ export type AlloggioCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   descrizione?: InputMaybe<Scalars['String']['input']>;
   foto?: InputMaybe<AssetCreateManyInlineInput>;
-  nome?: InputMaybe<Scalars['String']['input']>;
+  nome: Scalars['String']['input'];
   postiLetto: Scalars['Int']['input'];
   prezzi?: InputMaybe<AlloggioprezziUnionCreateManyInlineInput>;
   review?: InputMaybe<ReviewCreateManyInlineInput>;
@@ -8167,7 +8167,7 @@ export type IsolaQueryVariables = Exact<{
 }>;
 
 
-export type IsolaQuery = { __typename?: 'Query', isola?: { __typename?: 'Isola', nome: string, short_descrizione?: string | null, foto: Array<{ __typename?: 'Asset', url: string }>, coordinate: { __typename?: 'Location', latitude: number, longitude: number }, strutture: Array<{ __typename?: 'Struttura', nome: string, slug?: string | null, long_description?: string | null, foto: Array<{ __typename?: 'Asset', url: string }>, alloggi: Array<{ __typename?: 'Alloggio', descrizione?: string | null, nome?: string | null, id: string, postiLetto: number, prezzi: Array<{ __typename?: 'FasciaDiPrezzo', prezzo: number, fascia?: { __typename?: 'FasciaStagionale', al: any, nome: string, dal: any } | null }>, foto: Array<{ __typename?: 'Asset', url: string }> }> }> } | null };
+export type IsolaQuery = { __typename?: 'Query', isola?: { __typename?: 'Isola', nome: string, short_descrizione?: string | null, foto: Array<{ __typename?: 'Asset', url: string }>, coordinate: { __typename?: 'Location', latitude: number, longitude: number }, strutture: Array<{ __typename?: 'Struttura', nome: string, slug?: string | null, long_description?: string | null, foto: Array<{ __typename?: 'Asset', url: string }>, alloggi: Array<{ __typename?: 'Alloggio', descrizione?: string | null, nome: string, id: string, postiLetto: number, prezzi: Array<{ __typename?: 'FasciaDiPrezzo', prezzo: number, fascia?: { __typename?: 'FasciaStagionale', al: any, nome: string, dal: any } | null }>, foto: Array<{ __typename?: 'Asset', url: string }> }> }> } | null };
 
 export type IsoleQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8189,7 +8189,7 @@ export type StrutturaQueryVariables = Exact<{
 }>;
 
 
-export type StrutturaQuery = { __typename?: 'Query', struttura?: { __typename?: 'Struttura', nome: string, condizioniDiAffitto?: string | null, long_description?: string | null, alloggi: Array<{ __typename?: 'Alloggio', id: string, postiLetto: number, descrizione?: string | null, nome?: string | null, prezzi: Array<{ __typename?: 'FasciaDiPrezzo', prezzo: number, fascia?: { __typename?: 'FasciaStagionale', nome: string } | null }>, review: Array<{ __typename?: 'Review', autore?: string | null, commento?: string | null, data?: any | null }> }>, foto: Array<{ __typename?: 'Asset', url: string }>, isola?: { __typename?: 'Isola', nome: string } | null } | null };
+export type StrutturaQuery = { __typename?: 'Query', struttura?: { __typename?: 'Struttura', nome: string, condizioniDiAffitto?: string | null, long_description?: string | null, alloggi: Array<{ __typename?: 'Alloggio', id: string, postiLetto: number, descrizione?: string | null, nome: string, prezzi: Array<{ __typename?: 'FasciaDiPrezzo', prezzo: number, fascia?: { __typename?: 'FasciaStagionale', nome: string } | null }>, review: Array<{ __typename?: 'Review', autore?: string | null, commento?: string | null, data?: any | null }> }>, foto: Array<{ __typename?: 'Asset', url: string }>, isola?: { __typename?: 'Isola', nome: string } | null } | null };
 
 
 export const GruppiDiIsoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GruppiDiIsole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"gruppiDiIsole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nome"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"long_description"}},{"kind":"Field","name":{"kind":"Name","value":"isles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nome"}},{"kind":"Field","name":{"kind":"Name","value":"short_descrizione"}},{"kind":"Field","name":{"kind":"Name","value":"foto"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"mappa"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"latitude"}},{"kind":"Field","name":{"kind":"Name","value":"longitude"}}]}},{"kind":"Field","name":{"kind":"Name","value":"foto"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<GruppiDiIsoleQuery, GruppiDiIsoleQueryVariables>;

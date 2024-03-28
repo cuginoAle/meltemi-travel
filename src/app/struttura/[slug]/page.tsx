@@ -5,9 +5,10 @@ import { fetchStrutturaSlugs, fetchStruttura } from '@/gql';
 import { marked } from 'marked';
 import Image from 'next/image';
 import Person from '@/assets/person.svg';
-import MessageIcon from '@/assets/message.svg';
+
 import BG from '@/assets/windmill.webp';
 import { TileGrid } from '@/components/tileGrid';
+import { ContactForm } from '@/components/form/contactForm';
 
 const Struttura = async ({
   params: { slug },
@@ -102,12 +103,16 @@ const Struttura = async ({
             </TileGrid>
           </div>
           <div className="max-w-screen-xl mx-auto flex justify-center">
-            <button className="px-4 py-2 bg-green-700 shadow-md text-white text-lg rounded-md">
-              <span className="flex gap-4 items-center">
-                <MessageIcon className="h-6" />
-                <span>Verifica disponibilità</span>
-              </span>
-            </button>
+            <ContactForm
+              nomeStruttura={struttura.nome}
+              nomeIsola={struttura.isola?.nome!}
+              alloggi={
+                struttura.alloggi.map(({ nome, postiLetto }) => ({
+                  nome,
+                  postiLetto,
+                })) || []
+              }
+            />
           </div>
         </div>
       </div>

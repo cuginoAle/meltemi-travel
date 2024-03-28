@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  textarea {
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    min-height: 120px;
+  }
+}

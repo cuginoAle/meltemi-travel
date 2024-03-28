@@ -11,30 +11,39 @@ interface MessageBody {
 const botUrl = `https://api.telegram.org/bot${BOT_TOKEN}`;
 const sendMessageUrl = new URL(`${botUrl}/sendMessage`).toString();
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const originIp = request.headers.get('x-forwarded-for')?.split(',')[0];
 
   if (originIp === ALLOWED_IP) {
-    const { searchParams } = new URL(request.url);
-    const text = searchParams.get('text');
+    const formData = await request.formData();
+
+    const from = new Date(
+      (formData.get('dal') as string) || '',
+    ).toLocaleDateString();
+    const to = new Date(
+      (formData.get('al') as string) || '',
+    ).toLocaleDateString();
+
+    const text = `<b>${formData.get('isola')} - ${formData.get('struttura')}</b>
+
+<b>Adulti: </b> ${formData.get('numero_adulti')}
+<b>Bambini:</b> ${formData.get('numero_bambini') || 0}
+
+<b>Dal:     </b> ${from}
+<b>Al:       </b> ${to}
+
+<b>🏡:</b> ${formData.getAll('alloggi').join(' - ')}
+<b>✉️: </b> ${formData.get('email')}
+<b>☎️: </b> ${formData.get('phone')}
+
+${formData.get('note') && `<blockquote>${formData.get('note')}</blockquote>`}
+    `;
+
     if (text) {
       await _send(
         {
           chat_id: CHAT_ID,
           text,
-          //         : `<b>bold</b>, <strong>bold</strong>
-          // <i>italic</i>, <em>italic</em>
-          // <u>underline</u>, <ins>underline</ins>
-          // <s>strikethrough</s>, <strike>strikethrough</strike>, <del>strikethrough</del>
-          // <span class="tg-spoiler">spoiler</span>, <tg-spoiler>spoiler</tg-spoiler>
-          // <b>bold <i>italic bold <s>italic bold strikethrough <span class="tg-spoiler">italic bold strikethrough spoiler</span></s> <u>underline italic bold</u></i> bold</b>
-          // <a href="http://www.example.com/">inline URL</a>
-          // <a href="tg://user?id=123456789">inline mention of a user</a>
-          // <tg-emoji emoji-id="5368324170671202286">👍</tg-emoji>
-          // <code>inline fixed-width code👍</code>
-          // <pre>pre-formatted fixed-width code block</pre>
-          // <pre><code class="language-python">pre-formatted fixed-width code block written in the Python programming language</code></pre>
-          // <blockquote>Block quotation started\nBlock quotation continued\nThe last line of the block quotation</blockquote>`,
           parse_mode: 'HTML',
         },
         sendMessageUrl,
